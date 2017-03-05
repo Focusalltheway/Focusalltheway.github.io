@@ -355,11 +355,11 @@ body {
   z-index: -1;
 }
 #header-title {
-  text-align: left;
+  text-align: center;
   height: 40px;
   position: absolute;
   top: 50%;
-  left: 0;
+  left: -30%;
   margin-top: -20px;
 }
 #logo,
