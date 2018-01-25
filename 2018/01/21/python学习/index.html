@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://focusok.xyz/2018/01/21/python学习/index.html">
 <meta property="og:site_name" content="hurrican">
 <meta property="og:description" content="Python基础数据类型整数和浮点、复数　　Python可以处理任意大的整数和浮点数，整数为int类型，浮点数为float类型。整数和浮点数均能够通过＋、－、*、/进行加减乘除运算。">
-<meta property="og:updated_time" content="2018-01-23T15:54:56.661Z">
+<meta property="og:updated_time" content="2018-01-25T15:44:37.861Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python学习">
 <meta name="twitter:description" content="Python基础数据类型整数和浮点、复数　　Python可以处理任意大的整数和浮点数，整数为int类型，浮点数为float类型。整数和浮点数均能够通过＋、－、*、/进行加减乘除运算。">
@@ -179,7 +179,7 @@
                     <nav class="header-nav">
                         <ul class="social">
                             
-                                <a class="fl mail"  target="_blank" href="http://hurricanhup@sina.com" title="mail">mail</a>
+                                <a class="fl mail"  target="_blank" href="mailto:hurricanhup@sina.com" title="mail">mail</a>
                             
                                 <a class="fl github"  target="_blank" href="https://github.com/Focusalltheway" title="github">github</a>
                             
@@ -315,7 +315,7 @@
             <nav class="header-nav">
                 <div class="social">
                     
-                        <a class="mail" target="_blank" href="http://hurricanhup@sina.com" title="mail">mail</a>
+                        <a class="mail" target="_blank" href="mailto:hurricanhup@sina.com" title="mail">mail</a>
                     
                         <a class="github" target="_blank" href="https://github.com/Focusalltheway" title="github">github</a>
                     
@@ -355,6 +355,10 @@
       
       <div class="article-info article-info-post">
         
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Python/">Python</a>
+    </div>
+
 
         
         <div class="clearfix"></div>
@@ -481,7 +485,70 @@ TypeError: &apos;str&apos; object does not support item assignment
 </code></pre><p>　　　同样len（）函数也可以返回列表的长度（元素个数）。</p>
 <pre><code>&gt;&gt;&gt;len([1,2],3)  #列表的元素可以是列表
 2  
-</code></pre><p>　　</p>
+</code></pre><h2 id="通往Python编程的第一步"><a href="#通往Python编程的第一步" class="headerlink" title="通往Python编程的第一步"></a>通往Python编程的第一步</h2><p>　　当然，使用Python可以完成比计算更复杂的任务。比如，可以使用Python写出Fibonacci数列：  </p>
+<pre><code>&gt;&gt;&gt;#Fibonacci series:
+...a,b=0,1
+&gt;&gt;&gt;while b&lt;10:
+...     print(b)
+...     a,b=b,a+b
+...
+1
+2
+3
+5
+8
+</code></pre><p>　　<br>　　上述代码中第一行以#开头为注释，无其他作用，仅是说明下面代码完成的功能是打印Fibonacci数列，第2行定义两变量并赋初值为0、1，接下来是一个While循环，在循环的条件b&lt;10的情况下进行打印b值和累加。不同于C或C++语言，整个代码结构层次不使用；和{}进行区别，而是使用缩进量，两行代码缩进相同，表示进行的操作在同一个层级。</p>
+<h2 id="流控制语句"><a href="#流控制语句" class="headerlink" title="流控制语句"></a>流控制语句</h2><p>　　除了while循环语句，和其他语言一样，Python还有很多其他流控制语句。  </p>
+<h3 id="if条件语句"><a href="#if条件语句" class="headerlink" title="if条件语句"></a>if条件语句</h3><p>　　最常用的语句莫过于if条件语句，如下例：  </p>
+<pre><code>&gt;&gt;&gt;a=int(input(&quot;Please enter an integer:&quot;))
+Please enter an integer:25
+&gt;&gt;&gt;if x&lt;0:  
+        x=0
+        print(&apos;Negative changed to 0&apos;)
+    elif x==0:
+        print(&apos;0&apos;)
+    elif x==1:
+        print(&apos;Single&apos;)
+    else:
+        print(&apos;More&apos;)
+  ...
+  More
+</code></pre><h3 id="for循环语句"><a href="#for循环语句" class="headerlink" title="for循环语句"></a>for循环语句</h3><p>　　for循环语句可能在Python中和C语言中稍微有点不一样。C语言中for循环语句一般给出循环的起始值、步进和结束值，Python中for语句按照特定的序列进行循环。例如：</p>
+<pre><code>&gt;&gt;&gt;words=[&apos;cat&apos;,&apos;window&apos;,&apos;difference&apos;]
+&gt;&gt;&gt;for i in words:
+        print(i,len(i))
+...
+cat 3
+window 6
+difference 10
+</code></pre><p>　　如果需要根据循环的条件序列改变序列本身，最好先将序列的复制作为循环条件：</p>
+<pre><code>&gt;&gt;&gt;for i in words[:]:  #该切片操作相当于words的复制，如果此处直接是 i in words，程序将会导致编译器死循环。
+        if len(i)&gt;6:
+            words.insert(0,i)
+...
+&gt;&gt;&gt;words
+[&apos;difference&apos;,&apos;cat&apos;,&apos;window&apos;,&apos;difference&apos;]
+</code></pre><h3 id="range-函数"><a href="#range-函数" class="headerlink" title="range()函数"></a>range()函数</h3><p>　　使用内置函数range()可以构建序列。</p>
+<pre><code>&gt;&gt;&gt;for i in range(3):
+        print(i)
+...
+0
+1
+2
+&gt;&gt;&gt;list(range(5,10))
+[5,6,7,8,9]
+&gt;&gt;&gt;list(range(0,10,3))
+[0,3,6,9]
+</code></pre><p>　　　　对于可以结合range()和len()，可以产生C语言中for语句的效果。  </p>
+<pre><code>&gt;&gt;&gt;a=[&apos;Peter&apos;,&apos;is&apos;,&apos;a&apos;,&apos;boy&apos;]
+&gt;&gt;&gt;for i in range(len(a)):
+        print(i,a[i])
+...
+0 Peter
+1 is 
+2 a  
+3 boy
+</code></pre><h3 id="break和continue以及循环中的else语句"><a href="#break和continue以及循环中的else语句" class="headerlink" title="break和continue以及循环中的else语句"></a>break和continue以及循环中的else语句</h3><p>　　同C语言中一样，break语句也是跳出最接近break一层的for或者while循环。</p>
 
       
       
@@ -540,7 +607,7 @@ TypeError: &apos;str&apos; object does not support item assignment
         <p><span>本文标题:</span><a href="/2018/01/21/python学习/">Python学习</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 hurricane 的个人博客">hurricane</a></p>
         <p><span>发布时间:</span>2018年01月21日 - 23时17分</p>
-        <p><span>最后更新:</span>2018年01月23日 - 23时54分</p>
+        <p><span>最后更新:</span>2018年01月25日 - 23时44分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/01/21/python学习/" title="Python学习">http://focusok.xyz/2018/01/21/python学习/</a>
             <span class="copy-path" data-clipboard-text="原文: http://focusok.xyz/2018/01/21/python学习/　　作者: hurricane" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -569,7 +636,7 @@ TypeError: &apos;str&apos; object does not support item assignment
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python基础"><span class="toc-number">1.</span> <span class="toc-text">Python基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型"><span class="toc-number">1.1.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#整数和浮点、复数"><span class="toc-number">1.1.1.</span> <span class="toc-text">整数和浮点、复数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串"><span class="toc-number">1.1.2.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表"><span class="toc-number">1.1.3.</span> <span class="toc-text">列表</span></a></li></ol></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python基础"><span class="toc-number">1.</span> <span class="toc-text">Python基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型"><span class="toc-number">1.1.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#整数和浮点、复数"><span class="toc-number">1.1.1.</span> <span class="toc-text">整数和浮点、复数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串"><span class="toc-number">1.1.2.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表"><span class="toc-number">1.1.3.</span> <span class="toc-text">列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通往Python编程的第一步"><span class="toc-number">1.2.</span> <span class="toc-text">通往Python编程的第一步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流控制语句"><span class="toc-number">1.3.</span> <span class="toc-text">流控制语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if条件语句"><span class="toc-number">1.3.1.</span> <span class="toc-text">if条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for循环语句"><span class="toc-number">1.3.2.</span> <span class="toc-text">for循环语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#range-函数"><span class="toc-number">1.3.3.</span> <span class="toc-text">range()函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#break和continue以及循环中的else语句"><span class="toc-number">1.3.4.</span> <span class="toc-text">break和continue以及循环中的else语句</span></a></li></ol></li></ol></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
