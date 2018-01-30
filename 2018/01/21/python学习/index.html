@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://focusok.xyz/2018/01/21/python学习/index.html">
 <meta property="og:site_name" content="hurrican">
 <meta property="og:description" content="Python基础数据类型整数和浮点、复数　　Python可以处理任意大的整数和浮点数，整数为int类型，浮点数为float类型。整数和浮点数均能够通过＋、－、*、/进行加减乘除运算。">
-<meta property="og:updated_time" content="2018-01-26T13:52:02.444Z">
+<meta property="og:updated_time" content="2018-01-30T15:54:52.533Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python学习">
 <meta name="twitter:description" content="Python基础数据类型整数和浮点、复数　　Python可以处理任意大的整数和浮点数，整数为int类型，浮点数为float类型。整数和浮点数均能够通过＋、－、*、/进行加减乘除运算。">
@@ -544,7 +544,46 @@ difference 10
 1 is 
 2 a  
 3 boy
-</code></pre><h3 id="break和continue以及循环中的else语句"><a href="#break和continue以及循环中的else语句" class="headerlink" title="break和continue以及循环中的else语句"></a>break和continue以及循环中的else语句</h3><p>　　同C语言中一样，break语句也是跳出最接近break一层的for或者while循环。</p>
+</code></pre><h3 id="break和continue以及循环中的else语句"><a href="#break和continue以及循环中的else语句" class="headerlink" title="break和continue以及循环中的else语句"></a>break和continue以及循环中的else语句</h3><p>　　同C语言中一样，break语句也是跳出最接近break一层的for或者while循环。<br>　　循环中也可以有else语句；当for循环终止或while循环判断条件为false时，跟在后面的else语句会运行一次，但如果有break语句提前终止循环，else语句将不会运行。  </p>
+<pre><code>&gt;&gt;&gt;prime=[]
+&gt;&gt;&gt;for n in range(2,10):
+           for x in prime:
+            if n%x==0:
+            print(n,&apos;equals&apos;,x,&apos;*&apos;,n//x)
+            break    
+        else:        #此处else语句不与if为一层，而是与for循环为一对
+            prime.append(n)
+            print(n,&apos;is a prime&apos;)
+
+    2 is a prime        #for x  in prime:循环运行终止，未遇到break跳出循环，else语句运行一次。
+    3 is a prime
+    4 equals 2 * 2      #break跳出循环，else语句未运行
+    5 is a prime
+    6 equals 2 * 3
+    7 is a prime
+    8 equals 2 * 4
+    9 equals 3 * 3
+</code></pre><p>　　continue语句也是从C语言中借鉴过来的，也是跳过当次循环中continue之后的操作。</p>
+<pre><code>&gt;&gt;&gt;for num in range(2,5):
+        if num%2==0:
+            print(&quot;found an even number&quot;,num)
+            continue
+        print(&quot;Found a odd num&quot;,num)
+
+    found an even number 2
+    found an odd num 3
+    found an even number 4
+</code></pre><h2 id="定义函数"><a href="#定义函数" class="headerlink" title="定义函数"></a>定义函数</h2><p>　　我们举一个打印任意范围内的Fibonacci数列的例子来说明如何定义函数：  </p>
+<pre><code>&gt;&gt;&gt;def fib(n):          #函数实现打印n以内的Fibonacci数列
+        a,b=0,1
+        while a&lt;n:
+            print(a,end=&quot; &quot;)
+            a,b=b,a+b
+        print()
+
+&gt;&gt;&gt;fib(200)
+0 1 1 2 3 5 8 13 21 34 55 89 144   
+</code></pre><p>　　如上述例子，函数的定义以def作为关键字，后面紧跟着函数名称（例子中fib），括号内为函数参数列表，函数主体另起一行开始，且和关键字要有缩进。函数第一行一般会以#添加注释，以说明函数的功能或其他信息，添加注释是个很好的习惯，有很多工具可以根据这些注释自动生成说明文档，也使别人浏览代码时更简单易懂。</p>
 
       
       
@@ -603,7 +642,7 @@ difference 10
         <p><span>本文标题:</span><a href="/2018/01/21/python学习/">Python学习</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 hurricane 的个人博客">hurricane</a></p>
         <p><span>发布时间:</span>2018年01月21日 - 23时17分</p>
-        <p><span>最后更新:</span>2018年01月26日 - 21时52分</p>
+        <p><span>最后更新:</span>2018年01月30日 - 23时54分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/01/21/python学习/" title="Python学习">http://focusok.xyz/2018/01/21/python学习/</a>
             <span class="copy-path" data-clipboard-text="原文: http://focusok.xyz/2018/01/21/python学习/　　作者: hurricane" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -632,7 +671,7 @@ difference 10
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python基础"><span class="toc-number">1.</span> <span class="toc-text">Python基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型"><span class="toc-number">1.1.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#整数和浮点、复数"><span class="toc-number">1.1.1.</span> <span class="toc-text">整数和浮点、复数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串"><span class="toc-number">1.1.2.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表"><span class="toc-number">1.1.3.</span> <span class="toc-text">列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通往Python编程的第一步"><span class="toc-number">1.2.</span> <span class="toc-text">通往Python编程的第一步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流控制语句"><span class="toc-number">1.3.</span> <span class="toc-text">流控制语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if条件语句"><span class="toc-number">1.3.1.</span> <span class="toc-text">if条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for循环语句"><span class="toc-number">1.3.2.</span> <span class="toc-text">for循环语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#range-函数"><span class="toc-number">1.3.3.</span> <span class="toc-text">range()函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#break和continue以及循环中的else语句"><span class="toc-number">1.3.4.</span> <span class="toc-text">break和continue以及循环中的else语句</span></a></li></ol></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python基础"><span class="toc-number">1.</span> <span class="toc-text">Python基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型"><span class="toc-number">1.1.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#整数和浮点、复数"><span class="toc-number">1.1.1.</span> <span class="toc-text">整数和浮点、复数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串"><span class="toc-number">1.1.2.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表"><span class="toc-number">1.1.3.</span> <span class="toc-text">列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通往Python编程的第一步"><span class="toc-number">1.2.</span> <span class="toc-text">通往Python编程的第一步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流控制语句"><span class="toc-number">1.3.</span> <span class="toc-text">流控制语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if条件语句"><span class="toc-number">1.3.1.</span> <span class="toc-text">if条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for循环语句"><span class="toc-number">1.3.2.</span> <span class="toc-text">for循环语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#range-函数"><span class="toc-number">1.3.3.</span> <span class="toc-text">range()函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#break和continue以及循环中的else语句"><span class="toc-number">1.3.4.</span> <span class="toc-text">break和continue以及循环中的else语句</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定义函数"><span class="toc-number">1.4.</span> <span class="toc-text">定义函数</span></a></li></ol></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
