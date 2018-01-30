@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Python学习 | hurrican</title>
+  <title>hurrican</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Python基础数据类型整数和浮点、复数　　Python可以处理任意大的整数和浮点数，整数为int类型，浮点数为float类型。整数和浮点数均能够通过＋、－、*、/进行加减乘除运算。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Python学习">
-<meta property="og:url" content="http://focusok.xyz/2018/01/21/python学习/index.html">
+  <meta name="description" content="像飓风一样的飞驰">
+<meta property="og:type" content="website">
+<meta property="og:title" content="hurrican">
+<meta property="og:url" content="http://focusok.xyz/CTFStudy/index.html">
 <meta property="og:site_name" content="hurrican">
-<meta property="og:description" content="Python基础数据类型整数和浮点、复数　　Python可以处理任意大的整数和浮点数，整数为int类型，浮点数为float类型。整数和浮点数均能够通过＋、－、*、/进行加减乘除运算。">
-<meta property="og:updated_time" content="2018-01-26T13:52:02.444Z">
+<meta property="og:description" content="像飓风一样的飞驰">
+<meta property="og:updated_time" content="2017-03-05T13:10:17.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python学习">
-<meta name="twitter:description" content="Python基础数据类型整数和浮点、复数　　Python可以处理任意大的整数和浮点数，整数为int类型，浮点数为float类型。整数和浮点数均能够通过＋、－、*、/进行加减乘除运算。">
+<meta name="twitter:title" content="hurrican">
+<meta name="twitter:description" content="像飓风一样的飞驰">
   
     <link rel="alternative" href="/atom.xml" title="hurrican" type="application/atom+xml">
   
@@ -40,7 +40,7 @@
           fancybox: true,
           animate: true,
           isHome: false,
-          isPost: true,
+          isPost: false,
           isArchive: false,
           isTag: false,
           isCategory: false,
@@ -330,11 +330,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-python学习" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="page-undefined" class="article article-type-page" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/01/21/python学习/" class="article-date">
-      <time datetime="2018-01-21T15:17:40.000Z" itemprop="datePublished">2018-01-21</time>
+      <a href="/CTFStudy/index.html" class="article-date">
+      <time datetime="2017-03-05T13:05:21.000Z" itemprop="datePublished">2017-03-05</time>
 </a>
     </div>
   
@@ -343,212 +343,45 @@
       <input type="hidden" class="isFancy" />
     
     
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Python学习
-    </h1>
-  
-
-      </header>
-      
-      <div class="article-info article-info-post">
-        
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Python/">Python</a>
-    </div>
-
-
-        
-        <div class="clearfix"></div>
-      </div>
-      
-    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="Python基础"><a href="#Python基础" class="headerlink" title="Python基础"></a>Python基础</h1><h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><h3 id="整数和浮点、复数"><a href="#整数和浮点、复数" class="headerlink" title="整数和浮点、复数"></a>整数和浮点、复数</h3><p>　　Python可以处理任意大的整数和浮点数，整数为int类型，浮点数为float类型。整数和浮点数均能够通过＋、－、*、/进行加减乘除运算。<a id="more"></a>    </p>
-<pre><code>&gt;&gt;&gt;2+2   
-4    
-&gt;&gt;&gt;&gt;5/2  
-2.5  
-&gt;&gt;&gt;5*1.8  
-9.0
-</code></pre><p>　　一般除法运算/得到的数据类型默认为浮点数类型，如果想得到商的整数部分，使用//,想得到余数使用%。  </p>
-<pre><code>&gt;&gt;&gt;5//2  
-2  
-&gt;&gt;&gt;5%2  
-1
-</code></pre><p> 　　在Python中，**相当于幂运算。  </p>
-<pre><code>&gt;&gt;&gt;3**3  
-27
-&gt;&gt;&gt;(-3)**2
-9
-</code></pre><p>　　Python还内置了复数的定义和运算，’j’或J表示虚部，复数一般表示为a+bj。  </p>
-<pre><code>&gt;&gt;&gt;(3+2j)/(1+5j)  
-(0.5-0.5j)
-&gt;&gt;&gt;(1+3j)*(2+2j)  
-(-4+8j)
-</code></pre><h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><p>　　除了数字Python还能操作字符串。字符串可以使用单引号’…’或者双引号”…”的方式表示，若引号内有引号为字符串的内容，使用\排除歧义。  </p>
-<pre><code>&gt;&gt;&gt;&apos;hello world&apos;  
-&apos;hello world&apos;
-&gt;&gt;&gt;&apos;Lilei\&apos;s hat&apos;
-&quot;Lilei&apos;s hat&quot;
-&gt;&gt;&gt;&apos;Lilei say:&quot;how are you？&quot;&apos;
-&apos;Lilei say:&quot;how are you？&quot;&apos;
-&gt;&gt;&gt;&quot;\&quot;yes,\&quot;he said&quot;
-&apos;&quot;yes,&quot;he said&apos;  
-&gt;&gt;&gt;&apos;&quot;yes,you are good,&quot;he said.&apos;
-&apos;&quot;yes,you are good,&quot;he said.&apos; #单引号中的双引号不产生歧义  
-&gt;&gt;&gt;&quot;isn&apos;t he?&quot;  
-&quot;isn&apos;t he?&quot;  #双引号中的单引号也不产生歧义  
-</code></pre><p>　　如果不想将\解释为转义字符，只需要在引用号前加r，表示原生（raw）保留。  </p>
-<pre><code>&gt;&gt;&gt;print(&apos;C:\X\name&apos;)  #\n为换行字符
-C:\X  
-ame  
-&gt;&gt;&gt;print(r&apos;C:\X\name&apos;)  
-C:\X\name  
-</code></pre><p>　　字符串还可以使用+进行合并操作，使用*作为重复操作。（没有-和/的运算）  </p>
-<pre><code>&gt;&gt;&gt;3*&apos;im&apos;
-&apos;imimim&apos;
-&gt;&gt;&gt;3*&apos;im&apos;+&apos;k&apos;  
-&apos;imimimk&apos;   
-</code></pre><p>　　<br>  　字符串可以根据下标读取内容，第一个字符下标为０.但下标所取超出实际下标范围将会报错。　　</p>
-<pre><code>&gt;&gt;&gt;word=&apos;python&apos;  
-&gt;&gt;&gt;word[0]  
-&apos;p&apos;  
-&gt;&gt;&gt;word[5]
-&apos;n&apos;
-&gt;&gt;&gt;word[-1] #最后一个字符
-&apos;n&apos;
-&gt;&gt;&gt;word[-2] #倒数第二个字符
-&apos;o&apos;
-&gt;&gt;&gt;word[20]
-...
-IndexError:string index out of range
-</code></pre><p>　　    字符串还可以进行切片运算进行部分字符的选取。切片运算a[x:y:z],表示字符串a中从下标x开始步进为z取字符，取到下标为y截止所组成的字符串。但切片运算下标超出范围时，将不会报故障。  </p>
-<pre><code>&gt;&gt;&gt;word=&apos;abcdefghijklmn&apos;
-&gt;&gt;&gt;word[1:4] #默认为word[1:4:1]
-&apos;bcd&apos;
-&gt;&gt;&gt;word[1:8:2]
-&apos;bdfh&apos;
-&gt;&gt;&gt;word[-8:8:2]
-&apos;fh&apos; 
-&gt;&gt;&gt;word[18:20] 
-&apos; &apos;           #返回空  
-</code></pre><p>　　字符串不允许使用下标对单个或部分字符直接赋值来改变字符串。  </p>
-<pre><code>&gt;&gt;&gt;word[0]=&apos;k&apos;
-...
-TypeError: &apos;str&apos; object does not support item assignment
-&gt;&gt;&gt;word[1:]=&apos;bcdefghijklmn&apos;
-...
-TypeError: &apos;str&apos; object does not support item assignment  
-</code></pre><p>　   内置函数len()返回字符串的长度。  </p>
-<pre><code>&gt;&gt;&gt;len(&apos;abcde&apos;)
-5 
-&gt;&gt;&gt;len(&apos;你好！&apos;)
-3  
-</code></pre><h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p>　　Python中内置很多聚合型数据类型将不同的值聚合在一起。其中最重要最常见的莫过于列表了。列表使用一对方括号将不同数据组合在一起，这些组合的数据可以是不同的数据格式。  </p>
-<pre><code>&gt;&gt;&gt;s=[1,2,3]
-&gt;&gt;&gt;s
-[1,2,3]
+              <style>
+    .article-meta {
+        display: none;
+    }
+    #container .article .article-title {
+        padding-right: 0;
+    }
+    .article-header {
+        padding: 0;
+        padding-top: 26px;
+        border-left: none;
+        text-align: center;
+    }
+    .article-header:hover {
+        border-left: none;
+    }
+    .article-title {
+        font-size: 1.6em
+    }
+    .article-meta {
+        display: none;
+    }
+    .article-entry hr {
+        margin: 0;
+    }
+    #container .article-info-post.article-info {
+      display: none;
+      }
+    #container .article .article-title {
+    padding: 0;
+    }
+</style>
 
-&gt;&gt;&gt;a=[1,&apos;b&apos;]
-&gt;&gt;&gt;a
-[1,&apos;b&apos;]
-</code></pre><p>　　和字符串一样（任何其他内置的序列类型数据），列表也可以进行切片操作。  </p>
-<pre><code>&gt;&gt;&gt;s[1:-1]
-[2]
-&gt;&gt;&gt;s[1:]
-[2,3]  
-</code></pre><p>　　列表也可以使用“+”操作符，进行连接操作。</p>
-<pre><code>&gt;&gt;&gt;s+[3,4,5,6,7]
-[1,2,3,3,4,5,6,7]  
-</code></pre><p>　　但列表不同于字符串的是列表是可以更改的，列表可以直接通过下标进行赋值。</p>
-<pre><code>&gt;&gt;&gt;cube=[1,8,27,67,125]
-&gt;&gt;&gt;cube
-[1,8,27,67,125]
-&gt;&gt;&gt;cube[3]=64
-&gt;&gt;&gt;cube
-[1,8,27,64,125]
-&gt;&gt;&gt;cube[0:3]=[&apos;a&apos;,&apos;b&apos;,&apos;c&apos;]
-&gt;&gt;&gt;cube
-[&apos;a&apos;,&apos;b&apos;,&apos;c&apos;,64,125]  
-&gt;&gt;&gt;cube[0:3]=[&apos;a&apos;,&apos;b&apos;,&apos;c&apos;,&apos;d&apos;]
-&gt;&gt;&gt;cube
-[&apos;a&apos;,&apos;b&apos;,&apos;c&apos;,&apos;d&apos;,64,125]  
-</code></pre><p>　　　可以使用append()函数在列表后面添加元素。</p>
-<pre><code>&gt;&gt;&gt;cube.append(6**3)
-&gt;&gt;&gt;cube
-[&apos;a&apos;,&apos;b&apos;,&apos;c&apos;,&apos;d&apos;,64,125,216]  
-</code></pre><p>　　　同样len（）函数也可以返回列表的长度（元素个数）。</p>
-<pre><code>&gt;&gt;&gt;len([1,2],3)  #列表的元素可以是列表
-2  
-</code></pre><h2 id="通往Python编程的第一步"><a href="#通往Python编程的第一步" class="headerlink" title="通往Python编程的第一步"></a>通往Python编程的第一步</h2><p>　　当然，使用Python可以完成比计算更复杂的任务。比如，可以使用Python写出Fibonacci数列：  </p>
-<pre><code>&gt;&gt;&gt;#Fibonacci series:
-...a,b=0,1
-&gt;&gt;&gt;while b&lt;10:
-...     print(b)
-...     a,b=b,a+b
-...
-1
-2
-3
-5
-8
-</code></pre><p>　　<br>　　上述代码中第一行以#开头为注释，无其他作用，仅是说明下面代码完成的功能是打印Fibonacci数列，第2行定义两变量并赋初值为0、1，接下来是一个While循环，在循环的条件b&lt;10的情况下进行打印b值和累加。不同于C或C++语言，整个代码结构层次不使用；和{}进行区别，而是使用缩进量，两行代码缩进相同，表示进行的操作在同一个层级。</p>
-<h2 id="流控制语句"><a href="#流控制语句" class="headerlink" title="流控制语句"></a>流控制语句</h2><p>　　除了while循环语句，和其他语言一样，Python还有很多其他流控制语句。  </p>
-<h3 id="if条件语句"><a href="#if条件语句" class="headerlink" title="if条件语句"></a>if条件语句</h3><p>　　最常用的语句莫过于if条件语句，如下例：  </p>
-<pre><code>&gt;&gt;&gt;a=int(input(&quot;Please enter an integer:&quot;))
-Please enter an integer:25
-&gt;&gt;&gt;if x&lt;0:  
-        x=0
-        print(&apos;Negative changed to 0&apos;)
-    elif x==0:
-        print(&apos;0&apos;)
-    elif x==1:
-        print(&apos;Single&apos;)
-    else:
-        print(&apos;More&apos;)
-  ...
-  More
-</code></pre><h3 id="for循环语句"><a href="#for循环语句" class="headerlink" title="for循环语句"></a>for循环语句</h3><p>　　for循环语句可能在Python中和C语言中稍微有点不一样。C语言中for循环语句一般给出循环的起始值、步进和结束值，Python中for语句按照特定的序列进行循环。例如：</p>
-<pre><code>&gt;&gt;&gt;words=[&apos;cat&apos;,&apos;window&apos;,&apos;difference&apos;]
-&gt;&gt;&gt;for i in words:
-        print(i,len(i))
-...
-cat 3
-window 6
-difference 10
-</code></pre><p>　　如果需要根据循环的条件序列改变序列本身，最好先将序列的复制作为循环条件：</p>
-<pre><code>&gt;&gt;&gt;for i in words[:]:  #该切片操作相当于words的复制，如果此处直接是 i in words，程序将会导致编译器死循环。
-        if len(i)&gt;6:
-            words.insert(0,i)
-...
-&gt;&gt;&gt;words
-[&apos;difference&apos;,&apos;cat&apos;,&apos;window&apos;,&apos;difference&apos;]
-</code></pre><h3 id="range-函数"><a href="#range-函数" class="headerlink" title="range()函数"></a>range()函数</h3><p>　　使用内置函数range()可以构建序列。</p>
-<pre><code>&gt;&gt;&gt;for i in range(3):
-        print(i)
-...
-0
-1
-2
-&gt;&gt;&gt;list(range(5,10))
-[5,6,7,8,9]
-&gt;&gt;&gt;list(range(0,10,3))
-[0,3,6,9]
-</code></pre><p>　　　　结合range()和len()，可以产生C语言中for语句的效果。  </p>
-<pre><code>&gt;&gt;&gt;a=[&apos;Peter&apos;,&apos;is&apos;,&apos;a&apos;,&apos;boy&apos;]
-&gt;&gt;&gt;for i in range(len(a)):
-        print(i,a[i])
-...
-0 Peter
-1 is 
-2 a  
-3 boy
-</code></pre><h3 id="break和continue以及循环中的else语句"><a href="#break和continue以及循环中的else语句" class="headerlink" title="break和continue以及循环中的else语句"></a>break和continue以及循环中的else语句</h3><p>　　同C语言中一样，break语句也是跳出最接近break一层的for或者while循环。</p>
+
+          
+        <p>像飓风一样的飞驰</p>
 
       
       
@@ -603,67 +436,10 @@ difference 10
   </div>
   
     
-    <div class="copyright">
-        <p><span>本文标题:</span><a href="/2018/01/21/python学习/">Python学习</a></p>
-        <p><span>文章作者:</span><a href="/" title="访问 hurricane 的个人博客">hurricane</a></p>
-        <p><span>发布时间:</span>2018年01月21日 - 23时17分</p>
-        <p><span>最后更新:</span>2018年01月26日 - 21时52分</p>
-        <p>
-            <span>原始链接:</span><a class="post-url" href="/2018/01/21/python学习/" title="Python学习">http://focusok.xyz/2018/01/21/python学习/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://focusok.xyz/2018/01/21/python学习/　　作者: hurricane" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
-            <script src="/js/clipboard.min.js"></script>
-            <script> var clipboard = new Clipboard('.copy-path'); </script>
-        </p>
-        <p>
-            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
-        </p>
-    </div>
 
-
-
-<nav id="article-nav">
-  
-  
-    <a href="/2017/03/18/撩起你的胃口/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">撩起你的胃口</div>
-      <strong class="article-nav-caption">></strong>
-    </a>
-  
-</nav>
 
   
 </article>
-
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python基础"><span class="toc-number">1.</span> <span class="toc-text">Python基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型"><span class="toc-number">1.1.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#整数和浮点、复数"><span class="toc-number">1.1.1.</span> <span class="toc-text">整数和浮点、复数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串"><span class="toc-number">1.1.2.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表"><span class="toc-number">1.1.3.</span> <span class="toc-text">列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通往Python编程的第一步"><span class="toc-number">1.2.</span> <span class="toc-text">通往Python编程的第一步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流控制语句"><span class="toc-number">1.3.</span> <span class="toc-text">流控制语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if条件语句"><span class="toc-number">1.3.1.</span> <span class="toc-text">if条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for循环语句"><span class="toc-number">1.3.2.</span> <span class="toc-text">for循环语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#range-函数"><span class="toc-number">1.3.3.</span> <span class="toc-text">range()函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#break和continue以及循环中的else语句"><span class="toc-number">1.3.4.</span> <span class="toc-text">break和continue以及循环中的else语句</span></a></li></ol></li></ol></li></ol>
-</div>
-<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
-
-<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
-<script>
-    var valueHide = "隐藏目录";
-    var valueShow = "显示目录";
-
-    if ($(".left-col").is(":hidden")) {
-        $("#tocButton").attr("value", valueShow);
-    }
-    $("#tocButton").click(function() {
-        if ($("#toc").is(":hidden")) {
-            $("#tocButton").attr("value", valueHide);
-            $("#toc").slideDown(320);
-        }
-        else {
-            $("#tocButton").attr("value", valueShow);
-            $("#toc").slideUp(350);
-        }
-    })
-    if ($(".toc").length < 1) {
-        $("#toc, #tocButton").hide();
-    }
-</script>
-
-
 
 
 
@@ -700,37 +476,6 @@ difference 10
     
 
 
-
-    <div class="scroll" id="post-nav-button">
-        
-            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
-        
-        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
-        
-            <a href="/2017/03/18/撩起你的胃口/" title="下一篇: 撩起你的胃口">
-                <i class="fa fa-angle-right"></i>
-            </a>
-        
-    </div>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/01/21/python学习/">Python学习</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/18/撩起你的胃口/">撩起你的胃口</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/16/python教程/">Python教程</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/26/myfirstblog/">Hexo+github建站配置</a></li></ul>
-    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
-    <script>
-        $(".post-list").addClass("toc-article");
-        $(".post-list-item a").attr("target","_blank");
-        $("#post-nav-button > a:nth-child(2)").click(function() {
-            $(".fa-bars, .fa-times").toggle();
-            $(".post-list").toggle(300);
-            if ($(".toc").length > 0) {
-                $("#toc, #tocButton").toggle(200, function() {
-                    if ($(".switch-area").is(":visible")) {
-                        $("#tocButton").attr("value", valueHide);
-                        }
-                    })
-            }
-            else {
-            }
-        })
-    </script>
 
 
 
