@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://focusok.xyz/2018/01/21/python学习/index.html">
 <meta property="og:site_name" content="hurrican">
 <meta property="og:description" content="Python基础数据类型整数和浮点、复数　　Python可以处理任意大的整数和浮点数，整数为int类型，浮点数为float类型。整数和浮点数均能够通过＋、－、*、/进行加减乘除运算。">
-<meta property="og:updated_time" content="2018-02-04T15:10:05.138Z">
+<meta property="og:updated_time" content="2018-02-24T15:02:31.217Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python学习">
 <meta name="twitter:description" content="Python基础数据类型整数和浮点、复数　　Python可以处理任意大的整数和浮点数，整数为int类型，浮点数为float类型。整数和浮点数均能够通过＋、－、*、/进行加减乘除运算。">
@@ -674,7 +674,7 @@ print(f(3))
     print(&quot;if you put&quot;, voltage, &quot;volts through it.&quot;)
     print(&quot;-- Lovely plumage, the&quot;, type)
     print(&quot;-- It&apos;s&quot;, state, &quot;!&quot;)　　
-</code></pre><p>　　函数接受一个必要参数和三个可选参数。参数的调用可以使用下面任意方式：</p>
+</code></pre><p>　　函数接收一个必要参数和三个可选参数。参数的调用可以使用下面任意方式：</p>
 <pre><code>parrot(1000)                                         
 parrot(voltage=1000)                                 
 parrot(voltage=1000000, action=&apos;VOOOOOM&apos;)            
@@ -686,7 +686,57 @@ parrot(&apos;a thousand&apos;, state=&apos;pushing up the daisies&apos;)
 parrot(voltage=5.0, &apos;dead&apos;)  # 不允许非关键字参数在关键字参数之后 
 parrot(110, voltage=220)     # 给一个参数重复提供初值
 parrot(actor=&apos;John Cleese&apos;)  # 不可知的参数（未定义的参数）  
-</code></pre><p>　　当最后一个参数是**name的形式,</p>
+</code></pre><p>　　当最后一个参数是以<em>*name的形式出现,表示函数接收一个字典类型（dict）参数（带有关键字的形参）。形参还可以</em>name的形式出现，表示函数接收一个元组（tuple）类型的参数。但如果函数参数列表中既要定义字典类型又有元组类型，字典类型一定要放在元组类型参数之后。比如下面例子：  </p>
+<pre><code>def cheeseshop(kind,*arguments,**keywords):
+    print(&quot;--Do you have any &quot;,kind,&quot;?&quot;)
+    print(&quot;--I&apos;m sorry,We&apos;re all out off&quot;,kind)
+    for arg in arguments:
+        print(arg)
+    print(&quot;-&quot;*40)
+    for kw in keywords:
+        print(kw,&quot;:&quot;,keywords[kw])
+</code></pre><p>　　可以像下面调用函数：</p>
+<pre><code>cheeseshop(&quot;Limburger&quot;,&quot;It&apos;s very runny,sir.&quot;,
+               &quot;It&apos;s really very runny ,sir.&quot;,
+             shopkeeper=&quot;Michael&quot;,client=&quot;John&quot;,
+            sketch=&quot;Cheese shop Sketch&quot;)  
+</code></pre><p>　　结果显示如下：　　</p>
+<pre><code>--Do you have any  Limburger ?　　　　　　　＃　kind
+--I&apos;m sorry,We&apos;re all out off Limburger   ＃　kind
+It&apos;s very runny,sir.                      ＃　arguments
+It&apos;s really very runny ,sir.              ＃　arguments
+----------------------------------------
+shopkeeper : Michael                     #keywords
+client : John                             #keywords
+sketch : Cheese shop Sketch               #keywords  
+</code></pre><p>　　</p>
+<h3 id="任意参数列表"><a href="#任意参数列表" class="headerlink" title="任意参数列表"></a>任意参数列表</h3><p>　　最常见的做法是指定一个函数可以用任意数量的参数调用。这些参数将被封装在一个元组中（参见Tuples和序列）。在变量数目可变之前，可能出现零个或多个正常参数。  </p>
+<pre><code>def  write_multiple_items(file,separator,*args)
+    file.write(separator.join(args))  
+</code></pre><p>　　一般情况下，可变参数放在形参列表的最后，因为它将会接收所有它之后传递过来的参数。任意在*args参数后定义赋值的参数只能是关键字参数，而不能是位置参数。</p>
+<pre><code>def concat(*args,sep=&quot;/&quot;):
+    return sep.join(args)  
+
+print(concat(&quot;earth&quot;,&quot;Mars&quot;,&quot;venus&quot;))
+earth/Mars/venus  
+</code></pre><h3 id="Lambda函数（匿名函数）"><a href="#Lambda函数（匿名函数）" class="headerlink" title="Lambda函数（匿名函数）　　"></a>Lambda函数（匿名函数）　　</h3><p>　　小型匿名函数可以通过声明lambda关键字进行构建。像lambda a,b:a+b这个函数以a，b为参数，返回a,b的和。Lambda函数可以在任意需要定义函数的地方使用。但它们在语法上被限制为单句表达。像嵌套函数定义一样，lambda函数也可以引用其作用域内的变量：</p>
+<pre><code>def make_incrementor(n):
+    return lambda x: x + n
+f = make_incrementor(42)
+f(1)
+43
+</code></pre><p>##代码风格</p>
+<ol>
+<li>使用4个空格进行代码层次区分，而不要使用TAB；</li>
+<li>一行不要超过79个字符；</li>
+<li>使用空白行将函数、类或在函数中的较大的代码块区分开；</li>
+<li>尽可能将注释与需注释的代码放在同一行；</li>
+<li>使用docstrings对代码进行说明；</li>
+<li>在操作符和逗号前后尽量空一格；</li>
+<li>定义类和函数名时风格尽量保持一致；通常做法是定义类使用骆驼拼写风格（SampleCase），定义函数和方法时使用lower_case_with_underscores的拼写风格。类的第一个方法使用self作为参数；</li>
+<li>不要使用奇怪的编码方式去写代码；在任何情况下，Python默认的UTF-8，或者纯ASCII都是最好的编码方式；</li>
+<li>同样地，如果使用不同语言的人阅读或维护代码的机会很小，请不要在标识符中使用非ASCII字符。</li>
+</ol>
 
       
       
@@ -745,7 +795,7 @@ parrot(actor=&apos;John Cleese&apos;)  # 不可知的参数（未定义的参数
         <p><span>本文标题:</span><a href="/2018/01/21/python学习/">Python学习</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 hurricane 的个人博客">hurricane</a></p>
         <p><span>发布时间:</span>2018年01月21日 - 23时17分</p>
-        <p><span>最后更新:</span>2018年02月04日 - 23时10分</p>
+        <p><span>最后更新:</span>2018年02月24日 - 23时02分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/01/21/python学习/" title="Python学习">http://focusok.xyz/2018/01/21/python学习/</a>
             <span class="copy-path" data-clipboard-text="原文: http://focusok.xyz/2018/01/21/python学习/　　作者: hurricane" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -774,7 +824,7 @@ parrot(actor=&apos;John Cleese&apos;)  # 不可知的参数（未定义的参数
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python基础"><span class="toc-number">1.</span> <span class="toc-text">Python基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型"><span class="toc-number">1.1.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#整数和浮点、复数"><span class="toc-number">1.1.1.</span> <span class="toc-text">整数和浮点、复数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串"><span class="toc-number">1.1.2.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表"><span class="toc-number">1.1.3.</span> <span class="toc-text">列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通往Python编程的第一步"><span class="toc-number">1.2.</span> <span class="toc-text">通往Python编程的第一步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流控制语句"><span class="toc-number">1.3.</span> <span class="toc-text">流控制语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if条件语句"><span class="toc-number">1.3.1.</span> <span class="toc-text">if条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for循环语句"><span class="toc-number">1.3.2.</span> <span class="toc-text">for循环语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#range-函数"><span class="toc-number">1.3.3.</span> <span class="toc-text">range()函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#break和continue以及循环中的else语句"><span class="toc-number">1.3.4.</span> <span class="toc-text">break和continue以及循环中的else语句</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定义函数"><span class="toc-number">1.4.</span> <span class="toc-text">定义函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义默认参数值"><span class="toc-number">1.4.1.</span> <span class="toc-text">定义默认参数值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关键字参数调用"><span class="toc-number">1.4.2.</span> <span class="toc-text">关键字参数调用</span></a></li></ol></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python基础"><span class="toc-number">1.</span> <span class="toc-text">Python基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型"><span class="toc-number">1.1.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#整数和浮点、复数"><span class="toc-number">1.1.1.</span> <span class="toc-text">整数和浮点、复数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串"><span class="toc-number">1.1.2.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表"><span class="toc-number">1.1.3.</span> <span class="toc-text">列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通往Python编程的第一步"><span class="toc-number">1.2.</span> <span class="toc-text">通往Python编程的第一步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流控制语句"><span class="toc-number">1.3.</span> <span class="toc-text">流控制语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if条件语句"><span class="toc-number">1.3.1.</span> <span class="toc-text">if条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for循环语句"><span class="toc-number">1.3.2.</span> <span class="toc-text">for循环语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#range-函数"><span class="toc-number">1.3.3.</span> <span class="toc-text">range()函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#break和continue以及循环中的else语句"><span class="toc-number">1.3.4.</span> <span class="toc-text">break和continue以及循环中的else语句</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定义函数"><span class="toc-number">1.4.</span> <span class="toc-text">定义函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义默认参数值"><span class="toc-number">1.4.1.</span> <span class="toc-text">定义默认参数值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关键字参数调用"><span class="toc-number">1.4.2.</span> <span class="toc-text">关键字参数调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#任意参数列表"><span class="toc-number">1.4.3.</span> <span class="toc-text">任意参数列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lambda函数（匿名函数）"><span class="toc-number">1.4.4.</span> <span class="toc-text">Lambda函数（匿名函数）　　</span></a></li></ol></li></ol></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
