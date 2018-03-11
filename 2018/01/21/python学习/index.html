@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://focusok.xyz/2018/01/21/python学习/index.html">
 <meta property="og:site_name" content="hurrican">
 <meta property="og:description" content="Python基础数据类型整数和浮点、复数　　Python可以处理任意大的整数和浮点数，整数为int类型，浮点数为float类型。整数和浮点数均能够通过＋、－、*、/进行加减乘除运算。">
-<meta property="og:updated_time" content="2018-03-07T16:05:46.741Z">
+<meta property="og:updated_time" content="2018-03-11T15:33:51.143Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python学习">
 <meta name="twitter:description" content="Python基础数据类型整数和浮点、复数　　Python可以处理任意大的整数和浮点数，整数为int类型，浮点数为float类型。整数和浮点数均能够通过＋、－、*、/进行加减乘除运算。">
@@ -768,8 +768,100 @@ deque([2,3,4,‘mark’])
 </code></pre><p>　　也可以使用等式：  </p>
 <pre><code>s=[x**2 for x in range(10)]
 &gt;&gt;&gt;[(x,y) for x in [1,2,3] for y in [3,1,4] if x!=y]
-[(1,3),(1,4),(2,3),(2,1),(2,4),(3,1),(3,4)]
-</code></pre>
+[(1,3),(1,4),(2,3),(2,1),(2,4),(3,1),(3,4)]  
+</code></pre><p>###嵌套列表推导式　　<br>　　　列表推导式的初始表达可以是任意的表达式，包括另一个列表推导式。例如下面的一个3*4的矩阵，它由一个内嵌3个长度为4的列表的列表形成：  </p>
+<pre><code>&gt;&gt;&gt;matrix=[[1, 2, 3, 4],
+          [5, 6, 7, 8],
+          [9, 10, 11, 12]]  
+</code></pre><p>　　下面是转置该矩阵的列表推导式：</p>
+<pre><code>&gt;&gt;&gt;[[row[i] for row in matrix] for i in range(4)]
+[[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]  
+</code></pre><p>　　内嵌的列表推导式根据后面的for语句表达的顺序进行求值，因此上述推导式等价于：  </p>
+<pre><code>&gt;&gt;&gt; transposed = []
+&gt;&gt;&gt; for i in range(4):
+  ...     transposed.append([row[i] for row in matrix])
+  ...
+&gt;&gt;&gt; transposed
+    [[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]    
+</code></pre><p>　　进一步解析，等价于：</p>
+<pre><code>&gt;&gt;&gt; transposed = []
+&gt;&gt;&gt; for i in range(4):
+...     transposed_row = []
+...     for row in matrix:
+...         transposed_row.append(row[i])
+...     transposed.append(transposed_row)
+...
+&gt;&gt;&gt; transposed
+[[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]  
+</code></pre><p>　　也许在实际应用中，我们更喜欢用内置函数来实现复杂的表达式。zip（）函数可以很好的完成上述矩阵的转置：  </p>
+<pre><code>&gt;&gt;&gt;list(zip(*matrix))
+[(1, 5, 9), (2, 6, 10), (3, 7, 11), (4, 8, 12)]  
+</code></pre><h2 id="del表达式"><a href="#del表达式" class="headerlink" title="del表达式"></a>del表达式</h2><p>　　　del表达式可以根据列表的下标删除列表中的元素。这不同于pop()函数，pop()函数会返回元素的值，del不会。del表达式也可以使用切片删除列表中的多个元素，甚至删除整个列表。比如：</p>
+<pre><code>&gt;&gt;&gt;a=[1,2,3,4,5,6]
+&gt;&gt;&gt;del a[0]
+&gt;&gt;&gt;a
+[2,3,4,5,6]
+&gt;&gt;&gt;del a[2:4]
+&gt;&gt;&gt;a
+[2,5,6]
+&gt;&gt;&gt;del a
+&gt;&gt;&gt;a
+........
+NameError: name &apos;a&apos; is not defined  
+</code></pre><h2 id="Tuples和序列"><a href="#Tuples和序列" class="headerlink" title="Tuples和序列"></a>Tuples和序列</h2><p>　　像list和string都是序列数据类型，它们有很多共同的特点，比如可以有下标，可以进行切片操作。Python语言中还存在另一种标准的序列数据类型：tuple。<br>　　定义tuple，tuple各元素之间用逗号隔开，比如：</p>
+<pre><code>&gt;&gt;&gt;t=123,456,&apos;hi&apos;
+&gt;&gt;&gt;t
+(123,456,&apos;hi&apos;)
+&gt;&gt;&gt;t=(123,456,&apos;hi&apos;)  #定义tuple更标准的形式 
+&gt;&gt;&gt;t=tuple((123,456,&apos;hi&apos;)) #函数形式定义 
+&gt;&gt;&gt;u=t,(1,2,3,4)     #tuple还可以嵌套
+&gt;&gt;&gt;u
+((123,456,&apos;hi&apos;),(1,2,3,4))
+&gt;&gt;&gt;t[0]=0            #tuple是不可变序列
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+TypeError: &apos;tuple&apos; object does not support item assignment
+&gt;&gt;&gt;v=([1,2,3],[3,2,1])   #tuple的元素可以是可变序列list
+&gt;&gt;&gt;v
+([1,2,3],[3,2,1])
+</code></pre><p>　　定义一些特殊的tuple类型对象，需要注意一些问题：</p>
+<pre><code>&gt;&gt;&gt;empty=() #0个元素的tuple类型，一定要用括号
+&gt;&gt;&gt;m=&apos;hello&apos;, #定义一个元素的tuple类型，后面一定要加逗号 
+&gt;&gt;&gt;x,y,z=t
+&gt;&gt;&gt;x
+123
+&gt;&gt;&gt;y
+456
+&gt;&gt;&gt;z
+&apos;hi&apos;
+&gt;&gt;&gt;a,b=t
+......
+ValueError:not enough values to unpack(expected 2,got 1)  
+</code></pre><p>##集合（sets）<br>　　set是一个无重复元素的无序合集。和数学中的概念一样，set也有并集、合集、差集等运算。</p>
+<pre><code>&gt;&gt;&gt;basket={&apos;apple&apos;,&quot;orange&quot;,&apos;apple&apos;,&apos;pear&apos;,&apos;orange&apos;,&apos;banana&apos;}
+&gt;&gt;&gt;basket
+{&apos;orange&apos;, &apos;banana&apos;, &apos;pear&apos;, &apos;apple&apos;}  #自动删除重复元素
+&gt;&gt;&gt;basket=set((&apos;apple&apos;,&quot;orange&quot;,&apos;apple&apos;,&apos;pear&apos;,&apos;orange&apos;,&apos;banana&apos;))  #函数形式创建set
+&gt;&gt;&gt;&apos;orange&apos; in basket    
+True
+
+....
+&gt;&gt;&gt;a={&apos;qw&apos;,&apos;r&apos;}
+&gt;&gt;&gt;b={&apos;qw&apos;,&apos;m&apos;}
+&gt;&gt;&gt;a-b        #a,b的差集，只在a中元素的集合
+{&apos;r&apos;}
+&gt;&gt;&gt;a|b        #a,b的合集，在a或者在b中的元素的集合
+{&apos;m&apos;,&apos;qw&apos;,&apos;r&apos;}
+&gt;&gt;&gt;a&amp;b        #a,b的并集，同时在a,b中元素的集合
+{&apos;qw&apos;}
+&gt;&gt;&gt;a^b        #a，b集合的异或，在a或者b中，但不在a,b的并集中元素的集合
+{&apos;m&apos;,&apos;r&apos;}  
+</code></pre><p>　　同样，像list推导式，set推导式也是被支持的：</p>
+<pre><code>&gt;&gt;&gt;a={x for x in &quot;abracadabra&quot; if x not in &apos;abc&apos;}
+&gt;&gt;&gt;a
+{&apos;r&apos;,&apos;a&apos;}  
+</code></pre><p>##字典（dict）</p>
+
       
       
         <div class="page-reward">
@@ -827,7 +919,7 @@ deque([2,3,4,‘mark’])
         <p><span>本文标题:</span><a href="/2018/01/21/python学习/">Python学习</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 hurricane 的个人博客">hurricane</a></p>
         <p><span>发布时间:</span>2018年01月21日 - 23时17分</p>
-        <p><span>最后更新:</span>2018年03月08日 - 00时05分</p>
+        <p><span>最后更新:</span>2018年03月11日 - 23时33分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/01/21/python学习/" title="Python学习">http://focusok.xyz/2018/01/21/python学习/</a>
             <span class="copy-path" data-clipboard-text="原文: http://focusok.xyz/2018/01/21/python学习/　　作者: hurricane" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -856,7 +948,7 @@ deque([2,3,4,‘mark’])
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python基础"><span class="toc-number">1.</span> <span class="toc-text">Python基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型"><span class="toc-number">1.1.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#整数和浮点、复数"><span class="toc-number">1.1.1.</span> <span class="toc-text">整数和浮点、复数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串"><span class="toc-number">1.1.2.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表"><span class="toc-number">1.1.3.</span> <span class="toc-text">列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通往Python编程的第一步"><span class="toc-number">1.2.</span> <span class="toc-text">通往Python编程的第一步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流控制语句"><span class="toc-number">1.3.</span> <span class="toc-text">流控制语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if条件语句"><span class="toc-number">1.3.1.</span> <span class="toc-text">if条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for循环语句"><span class="toc-number">1.3.2.</span> <span class="toc-text">for循环语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#range-函数"><span class="toc-number">1.3.3.</span> <span class="toc-text">range()函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#break和continue以及循环中的else语句"><span class="toc-number">1.3.4.</span> <span class="toc-text">break和continue以及循环中的else语句</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定义函数"><span class="toc-number">1.4.</span> <span class="toc-text">定义函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义默认参数值"><span class="toc-number">1.4.1.</span> <span class="toc-text">定义默认参数值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关键字参数调用"><span class="toc-number">1.4.2.</span> <span class="toc-text">关键字参数调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#任意参数列表"><span class="toc-number">1.4.3.</span> <span class="toc-text">任意参数列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lambda函数（匿名函数）"><span class="toc-number">1.4.4.</span> <span class="toc-text">Lambda函数（匿名函数）　　</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码风格"><span class="toc-number">1.5.</span> <span class="toc-text">代码风格</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#list用作堆栈"><span class="toc-number">1.5.1.</span> <span class="toc-text">list用作堆栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#list用作队列"><span class="toc-number">1.5.2.</span> <span class="toc-text">list用作队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表推导式"><span class="toc-number">1.5.3.</span> <span class="toc-text">列表推导式</span></a></li></ol></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python基础"><span class="toc-number">1.</span> <span class="toc-text">Python基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型"><span class="toc-number">1.1.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#整数和浮点、复数"><span class="toc-number">1.1.1.</span> <span class="toc-text">整数和浮点、复数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串"><span class="toc-number">1.1.2.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表"><span class="toc-number">1.1.3.</span> <span class="toc-text">列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通往Python编程的第一步"><span class="toc-number">1.2.</span> <span class="toc-text">通往Python编程的第一步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流控制语句"><span class="toc-number">1.3.</span> <span class="toc-text">流控制语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if条件语句"><span class="toc-number">1.3.1.</span> <span class="toc-text">if条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for循环语句"><span class="toc-number">1.3.2.</span> <span class="toc-text">for循环语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#range-函数"><span class="toc-number">1.3.3.</span> <span class="toc-text">range()函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#break和continue以及循环中的else语句"><span class="toc-number">1.3.4.</span> <span class="toc-text">break和continue以及循环中的else语句</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定义函数"><span class="toc-number">1.4.</span> <span class="toc-text">定义函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义默认参数值"><span class="toc-number">1.4.1.</span> <span class="toc-text">定义默认参数值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关键字参数调用"><span class="toc-number">1.4.2.</span> <span class="toc-text">关键字参数调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#任意参数列表"><span class="toc-number">1.4.3.</span> <span class="toc-text">任意参数列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lambda函数（匿名函数）"><span class="toc-number">1.4.4.</span> <span class="toc-text">Lambda函数（匿名函数）　　</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码风格"><span class="toc-number">1.5.</span> <span class="toc-text">代码风格</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#list用作堆栈"><span class="toc-number">1.5.1.</span> <span class="toc-text">list用作堆栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#list用作队列"><span class="toc-number">1.5.2.</span> <span class="toc-text">list用作队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表推导式"><span class="toc-number">1.5.3.</span> <span class="toc-text">列表推导式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#del表达式"><span class="toc-number">1.6.</span> <span class="toc-text">del表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tuples和序列"><span class="toc-number">1.7.</span> <span class="toc-text">Tuples和序列</span></a></li></ol></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
