@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://focusok.xyz/2018/01/21/python学习/index.html">
 <meta property="og:site_name" content="hurrican">
 <meta property="og:description" content="Python基础数据类型整数和浮点、复数　　Python可以处理任意大的整数和浮点数，整数为int类型，浮点数为float类型。整数和浮点数均能够通过＋、－、*、/进行加减乘除运算。">
-<meta property="og:updated_time" content="2018-03-11T15:36:22.554Z">
+<meta property="og:updated_time" content="2018-03-13T15:09:00.541Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python学习">
 <meta name="twitter:description" content="Python基础数据类型整数和浮点、复数　　Python可以处理任意大的整数和浮点数，整数为int类型，浮点数为float类型。整数和浮点数均能够通过＋、－、*、/进行加减乘除运算。">
@@ -860,7 +860,76 @@ True
 <pre><code>&gt;&gt;&gt;a={x for x in &quot;abracadabra&quot; if x not in &apos;abc&apos;}
 &gt;&gt;&gt;a
 {&apos;r&apos;,&apos;a&apos;}  
-</code></pre><h2 id="字典（dict）"><a href="#字典（dict）" class="headerlink" title="字典（dict）"></a>字典（dict）</h2>
+</code></pre><h2 id="字典（dict）"><a href="#字典（dict）" class="headerlink" title="字典（dict）"></a>字典（dict）</h2><p>　　dict（字典）是Python语言中一种很有用的数据类型。在其他语言中dict被称为关联内存或关联数组。不同于序列由一列数字索引，字典由关键字索引，关键字可以是任意的非变类型；所有字符串和数字都可以作为字典的关键字。tuple类型只有当其元素不含可变类型数据时可以作为关键字。list类型不能被用作字典的关键字。<br>　　理解字典类型，最好将它看成一个无序的key:value组的集合，在一个字典里，每个关键字是唯一的。一对花括号创建一个空的字典：{}。每个key:value对之间用逗号隔开。  </p>
+<pre><code>&gt;&gt;&gt;tel={&apos;jack&apos;: 4098, &apos;sape&apos;: 4139,&apos;jack&apos;:3022}
+&gt;&gt;&gt;tel
+{&apos;jack&apos;:3022,&apos;sape&apos;: 4139}      #重复的关键字会保留最后一组key:value对，其他自动删除。
+&gt;&gt;&gt;tel[&apos;lili&apos;]=4423              #增加字典元素
+&gt;&gt;&gt;tel
+{&apos;jack&apos;:3022,&apos;sape&apos;: 4139,&apos;lili&apos;:4423}
+&gt;&gt;&gt;del tel[&apos;sape&apos;]
+&gt;&gt;&gt;tel
+{&apos;jack&apos;:3022,&apos;lili&apos;:4423}
+&gt;&gt;&gt;list(tel.keys())
+[&apos;jack&apos;,&apos;lili&apos;]
+&gt;&gt;&gt;sorted(tel.keys())
+[&apos;jack&apos;,&apos;lili&apos;]
+&gt;&gt;&gt;sorted(tel.values())
+[3022,4423]
+&gt;&gt;&gt;&apos;jack&apos; in tel
+True
+</code></pre><p>　　dict()直接根据key-value序列创建字典：  </p>
+<pre><code>&gt;&gt;&gt; dict([(&apos;sape&apos;, 4139), (&apos;guido&apos;, 4127), (&apos;jack&apos;, 4098)])
+{&apos;sape&apos;: 4139, &apos;jack&apos;: 4098, &apos;guido&apos;: 4127}  
+</code></pre><p>　　字典推导式可以根据任意的关键字和值创建字典：  </p>
+<pre><code>&gt;&gt;&gt;{x:x**2 for x in(1,2,3)}
+{1:1,2:4,3:9}  
+</code></pre><p>　　当关键字只为字符串，可以简化字典类型的创建：  </p>
+<pre><code>&gt;&gt;&gt;dict(sape=4139, guido=4127, jack=4098)
+{&apos;sape&apos;: 4139, &apos;jack&apos;: 4098, &apos;guido&apos;: 4127}
+</code></pre><h2 id="循环技巧"><a href="#循环技巧" class="headerlink" title="循环技巧"></a>循环技巧</h2><p>　　当遍历字典时，关键字和相关的值可以通过items()方法同时提取。</p>
+<pre><code>&gt;&gt;&gt; knights = {&apos;gallahad&apos;: &apos;the pure&apos;, &apos;robin&apos;: &apos;the brave&apos;}
+&gt;&gt;&gt; for k, v in knights.items():
+...     print(k, v)
+...
+gallahad the pure
+robin the brave  
+</code></pre><p>　　当遍历一个序列时，元素的位置和值可以通过enumerate()函数同时获取。  </p>
+<pre><code>&gt;&gt;&gt; for i, v in enumerate([&apos;tic&apos;, &apos;tac&apos;, &apos;toe&apos;]):
+...     print(i, v)
+...
+0 tic
+1 tac
+2 toe  
+</code></pre><p>　　同时遍历两个序列，可以使用zip()函数：                 </p>
+<pre><code>&gt;&gt;&gt; questions = [&apos;name&apos;, &apos;quest&apos;, &apos;favorite color&apos;]
+&gt;&gt;&gt; answers = [&apos;lancelot&apos;, &apos;the holy grail&apos;, &apos;blue&apos;]
+&gt;&gt;&gt; for q, a in zip(questions, answers):
+...     print(&apos;What is your {0}?  It is {1}.&apos;.format(q, a))
+...
+What is your name?  It is lancelot.
+What is your quest?  It is the holy grail.
+What is your favorite color?  It is blue.  
+</code></pre><p>　　反序遍历序列，调用reversed()函数，排序使用sorted()函数：</p>
+<pre><code>&gt;&gt;&gt; for i in reversed(range(1, 10, 2)):   #resversed()返回的是一个迭代器类，而不是反序后的序列。
+...     print(i)
+...
+9
+7
+5
+3
+1  
+</code></pre><p>　　有时候想在遍历序列的时候改变它，简单而又安全的方法是将新建一个序列。</p>
+<pre><code>&gt;&gt;&gt; import math
+&gt;&gt;&gt; raw_data = [56.2, float(&apos;NaN&apos;), 51.7, 55.3, 52.5, float(&apos;NaN&apos;), 47.8]
+&gt;&gt;&gt; filtered_data = []
+&gt;&gt;&gt; for value in raw_data:
+...     if not math.isnan(value):
+...         filtered_data.append(value)
+...
+&gt;&gt;&gt; filtered_data
+[56.2, 51.7, 55.3, 52.5, 47.8]  
+</code></pre>
       
       
         <div class="page-reward">
@@ -918,7 +987,7 @@ True
         <p><span>本文标题:</span><a href="/2018/01/21/python学习/">Python学习</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 hurricane 的个人博客">hurricane</a></p>
         <p><span>发布时间:</span>2018年01月21日 - 23时17分</p>
-        <p><span>最后更新:</span>2018年03月11日 - 23时36分</p>
+        <p><span>最后更新:</span>2018年03月13日 - 23时09分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/01/21/python学习/" title="Python学习">http://focusok.xyz/2018/01/21/python学习/</a>
             <span class="copy-path" data-clipboard-text="原文: http://focusok.xyz/2018/01/21/python学习/　　作者: hurricane" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -947,7 +1016,7 @@ True
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python基础"><span class="toc-number">1.</span> <span class="toc-text">Python基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型"><span class="toc-number">1.1.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#整数和浮点、复数"><span class="toc-number">1.1.1.</span> <span class="toc-text">整数和浮点、复数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串"><span class="toc-number">1.1.2.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表"><span class="toc-number">1.1.3.</span> <span class="toc-text">列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通往Python编程的第一步"><span class="toc-number">1.2.</span> <span class="toc-text">通往Python编程的第一步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流控制语句"><span class="toc-number">1.3.</span> <span class="toc-text">流控制语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if条件语句"><span class="toc-number">1.3.1.</span> <span class="toc-text">if条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for循环语句"><span class="toc-number">1.3.2.</span> <span class="toc-text">for循环语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#range-函数"><span class="toc-number">1.3.3.</span> <span class="toc-text">range()函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#break和continue以及循环中的else语句"><span class="toc-number">1.3.4.</span> <span class="toc-text">break和continue以及循环中的else语句</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定义函数"><span class="toc-number">1.4.</span> <span class="toc-text">定义函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义默认参数值"><span class="toc-number">1.4.1.</span> <span class="toc-text">定义默认参数值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关键字参数调用"><span class="toc-number">1.4.2.</span> <span class="toc-text">关键字参数调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#任意参数列表"><span class="toc-number">1.4.3.</span> <span class="toc-text">任意参数列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lambda函数（匿名函数）"><span class="toc-number">1.4.4.</span> <span class="toc-text">Lambda函数（匿名函数）　　</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码风格"><span class="toc-number">1.5.</span> <span class="toc-text">代码风格</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#list用作堆栈"><span class="toc-number">1.5.1.</span> <span class="toc-text">list用作堆栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#list用作队列"><span class="toc-number">1.5.2.</span> <span class="toc-text">list用作队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表推导式"><span class="toc-number">1.5.3.</span> <span class="toc-text">列表推导式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#del表达式"><span class="toc-number">1.6.</span> <span class="toc-text">del表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tuples和序列"><span class="toc-number">1.7.</span> <span class="toc-text">Tuples和序列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#集合（sets）"><span class="toc-number">1.8.</span> <span class="toc-text">集合（sets）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字典（dict）"><span class="toc-number">1.9.</span> <span class="toc-text">字典（dict）</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python基础"><span class="toc-number">1.</span> <span class="toc-text">Python基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型"><span class="toc-number">1.1.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#整数和浮点、复数"><span class="toc-number">1.1.1.</span> <span class="toc-text">整数和浮点、复数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串"><span class="toc-number">1.1.2.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表"><span class="toc-number">1.1.3.</span> <span class="toc-text">列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通往Python编程的第一步"><span class="toc-number">1.2.</span> <span class="toc-text">通往Python编程的第一步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流控制语句"><span class="toc-number">1.3.</span> <span class="toc-text">流控制语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if条件语句"><span class="toc-number">1.3.1.</span> <span class="toc-text">if条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for循环语句"><span class="toc-number">1.3.2.</span> <span class="toc-text">for循环语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#range-函数"><span class="toc-number">1.3.3.</span> <span class="toc-text">range()函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#break和continue以及循环中的else语句"><span class="toc-number">1.3.4.</span> <span class="toc-text">break和continue以及循环中的else语句</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定义函数"><span class="toc-number">1.4.</span> <span class="toc-text">定义函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义默认参数值"><span class="toc-number">1.4.1.</span> <span class="toc-text">定义默认参数值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关键字参数调用"><span class="toc-number">1.4.2.</span> <span class="toc-text">关键字参数调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#任意参数列表"><span class="toc-number">1.4.3.</span> <span class="toc-text">任意参数列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lambda函数（匿名函数）"><span class="toc-number">1.4.4.</span> <span class="toc-text">Lambda函数（匿名函数）　　</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码风格"><span class="toc-number">1.5.</span> <span class="toc-text">代码风格</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#list用作堆栈"><span class="toc-number">1.5.1.</span> <span class="toc-text">list用作堆栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#list用作队列"><span class="toc-number">1.5.2.</span> <span class="toc-text">list用作队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表推导式"><span class="toc-number">1.5.3.</span> <span class="toc-text">列表推导式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#del表达式"><span class="toc-number">1.6.</span> <span class="toc-text">del表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tuples和序列"><span class="toc-number">1.7.</span> <span class="toc-text">Tuples和序列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#集合（sets）"><span class="toc-number">1.8.</span> <span class="toc-text">集合（sets）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字典（dict）"><span class="toc-number">1.9.</span> <span class="toc-text">字典（dict）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#循环技巧"><span class="toc-number">1.10.</span> <span class="toc-text">循环技巧</span></a></li></ol></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
