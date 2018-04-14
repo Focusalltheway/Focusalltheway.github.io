@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://focusok.xyz/2018/01/21/python学习/index.html">
 <meta property="og:site_name" content="hurrican">
 <meta property="og:description" content="Python基础数据类型整数、浮点数和复数　　Python可以处理任意大的整数和浮点数，整数为int类型，浮点数为float类型。整数和浮点数均能够通过＋、－、*、/进行加减乘除运算。">
-<meta property="og:updated_time" content="2018-03-29T16:00:13.335Z">
+<meta property="og:updated_time" content="2018-04-14T16:23:53.585Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python学习">
 <meta name="twitter:description" content="Python基础数据类型整数、浮点数和复数　　Python可以处理任意大的整数和浮点数，整数为int类型，浮点数为float类型。整数和浮点数均能够通过＋、－、*、/进行加减乘除运算。">
@@ -1040,7 +1040,104 @@ def fib2(n):   # return Fibonacci series up to n
 </code></pre><p>　　　使用这种方法加载echo子模块，那么可以直接使用它的函数：  </p>
 <pre><code>echofilter(input,output,delay=0.7,atten=4)  
 </code></pre><p>　　 当使用from package import item的形式，item可以是包中的一个子模块，也可以是包中其他任意的名字（像类名、函数名、变量名等）。import声明首先会检测item是否被定义在包内，如果不是，它会假设item是一个模块并试图加载它。如果在包中没有找到item，就会报出ImportError异常。　　<br>　　相反，当使用像import item.subitem.subsubitem的形式，除了最后一个item可以不是包，其他都必须是包名；最后一个item可以是一个模块或包但不可以是前面一个item中定义的类、函数或变量。  </p>
-<h2 id="从包中import"><a href="#从包中import" class="headerlink" title="从包中import *"></a>从包中import *</h2><p>　　当使用form sound.effects import <em>会发生什么？理想情况下，用户可能希望这种方法可以以某种方法进入文件系统，找出包中的子模块，并将它们全部导入。这可能会花费很长时间而且导入子模块会产生意想不到的副作用（当然只有在子模块被显式导入时，这种副作用才会产生）。<br>　　唯一解决的方法是包的作者提供包的显式目录。import的声明会使用下列约束：如果包中__init__.py代码定义了一个名为__all__的列表时，那这个列表将会被作为from package import </em>导入的模块名列表。它要求包的作者在包版本更新时也及时更新该列表。</p>
+<h3 id="从包中import"><a href="#从包中import" class="headerlink" title="从包中import *"></a>从包中import *</h3><p>　　当使用form sound.effects import <em>会发生什么？理想情况下，用户可能希望这种方法可以以某种方法进入文件系统，找出包中的子模块，并将它们全部导入。这可能会花费很长时间而且导入子模块会产生意想不到的副作用（当然只有在子模块被显式导入时，这种副作用才会产生）。<br>　　唯一解决的方法是包的作者提供包的显式目录。import的声明会使用下列约束：如果包中__init__.py代码定义了一个名为__all__的列表时，那这个列表将会被作为from package import </em>导入的模块名列表。它要求包的作者在包版本更新时也及时更新该列表。比如：sound/effects/__init__.py中可以包含如下代码：  </p>
+<pre><code>__all__=[&apos;echo&apos;,&apos;surround&apos;,&apos;reverse&apos;]  
+</code></pre><p>　　这意味着from sound.effects import <em>将会从包中加载这三个子模块。<br>　　如果没有定义__all__，from sound.effects import </em>声明不会将sound.effects包中的任意子模块名导入到当前的命名空间；它只会在确定sound.effects包名已经被导入后再导入包中定义的名称。这些名称包含__init__.py中定义的任意名称和任意在前面已经通过import声明显式导入的包中的子模块名。考虑下列代码：  </p>
+<pre><code>import sound.effects.echo
+import sound.effects.surround
+from sound.effects import *
+</code></pre><p>　　这个例子中，当执行from……import声明时，echo和surround模块也会被导入到当前命名空间，因为它们已经被显式导入。<br>　　虽然当使用import *时，特定的模块被设计成遵循特定的方式只输出名称，但在生产代码时，这还是被认为糟糕的做法。<br>　　使用from Package import specific_submodule的方式将永远是正确的。实际上，这是推荐的表示方法，除非需要导入模块来自不同包的同名子模块。  </p>
+<h1 id="输入和输出"><a href="#输入和输出" class="headerlink" title="输入和输出"></a>输入和输出</h1><p>　　程序的输出可以有多种呈现方式，数据可以打印成可读方式 ，或者写入一个文件供以后使用。这章将会探讨可能的输出方式。 　　</p>
+<h2 id="设计输出格式"><a href="#设计输出格式" class="headerlink" title="设计输出格式"></a>设计输出格式</h2><p>　  　到目前为止，我们遇到了两种写值的方式：表达式语句和print（）函数。（第三种方法是使用文件对象的write()方法；标准输出文件可以被引用为sys.stdout。）<br>　　经常你会希望更多方式的控制输出的格式，而不是仅仅打印用空格分开的值。有两种方法去格式化你的输出；第一种方法是所有的字符串自己处理；使用字符串切片和连接操作，你可以创建任何你可以想到的布局。字符串类型有一些方法可以很好的将字符串填入一个给定列宽度的空间。第二种方法是是使用格式化的字符串，或者能够使用str.format()的方法。<br>　　字符串模块包含一个模板类，这个类提供另一种把值转换成字符串的方法。<br>　　那如何把其他类型值转换成字符串呢？Python中可以通过repr()或者str()函数将它转换成字符串。<br>　　str（）函数的目的是返回可读的值，但是repr()函数的目的是返回解释器可以读懂的值。许多类型像数字或结构像列表和字典的值，使用repr()和str()函数，返回的值是一样的。特殊情况是字符串，两个函数转换字符串返回的值有所不同。  </p>
+<pre><code>&gt;&gt;&gt; s = &apos;Hello, world.&apos;
+&gt;&gt;&gt; str(s)
+&apos;Hello, world.&apos;
+&gt;&gt;&gt; repr(s)
+&quot;&apos;Hello, world.&apos;&quot;
+&gt;&gt;&gt; str(1/7)
+&apos;0.14285714285714285&apos;
+&gt;&gt;&gt; x = 10 * 3.25
+&gt;&gt;&gt; y = 200 * 200
+&gt;&gt;&gt; s = &apos;The value of x is &apos; + repr(x) + &apos;, and y is &apos; + repr(y) + &apos;...&apos;
+&gt;&gt;&gt; print(s)
+The value of x is 32.5, and y is 40000...
+&gt;&gt;&gt; # The repr() of a string adds string quotes and backslashes:
+... hello = &apos;hello, world\n&apos;
+&gt;&gt;&gt; hellos = repr(hello)
+&gt;&gt;&gt; print(hellos)
+&apos;hello, world\n&apos;
+&gt;&gt;&gt; # The argument to repr() may be any Python object:
+... repr((x, y, (&apos;spam&apos;, &apos;eggs&apos;)))
+&quot;(32.5, 40000, (&apos;spam&apos;, &apos;eggs&apos;))&quot;　　
+</code></pre><p>　　下面是打印数字平方和立方阵列的两种方法：  </p>
+<pre><code>&gt;&gt;&gt; for x in range(1, 11):
+...     print(repr(x).rjust(2), repr(x*x).rjust(3), end=&apos; &apos;)
+...     # Note use of &apos;end&apos; on previous line
+...     print(repr(x*x*x).rjust(4))
+...
+1   1    1
+2   4    8
+3   9   27
+4  16   64
+5  25  125
+6  36  216
+7  49  343
+8  64  512
+9  81  729
+10 100 1000  
+&gt;&gt;&gt; for x in range(1, 11):
+...     print(&apos;{0:2d} {1:3d} {2:4d}&apos;.format(x, x*x, x*x*x))
+...
+1   1    1
+2   4    8
+3   9   27
+4  16   64
+5  25  125
+6  36  216
+7  49  343
+8  64  512
+9  81  729
+10 100 1000  
+</code></pre><p>　　输出格式的排版，第一个例子使用了str.rjust()函数，即字符串右对齐。还有其他几个相似的函数如str.ljust()(左对齐)、str.center()(居中)。这些函数都不会写入任何东西，只是返回一个新的字符串。如果输入的字符串太长，它们也不会截断字符串，而是直接不加改变返回原字符串。如果想截断字符串可以加一个切片操作，如in x.ljust(n)[:n]。　　<br>　　还有另外一个函数str.fill()，它可以在数字型字符串左边添加0.它可以理解加法和减法运算符：  </p>
+<pre><code>&gt;&gt;&gt; &apos;12&apos;.zfill(5)
+&apos;00012&apos;
+&gt;&gt;&gt; &apos;-3.14&apos;.zfill(7)
+&apos;-003.14&apos;
+&gt;&gt;&gt; &apos;3.14159265359&apos;.zfill(5)
+&apos;3.14159265359&apos;  
+</code></pre><p>　　str.format()函数的基本用法如下：  </p>
+<pre><code>&gt;&gt;&gt;    print(&apos;Who is the {} who say &quot;{}!&quot;&apos;.format(&apos;boy&apos;,&apos;Wonderful&apos;))
+Who    is the boy who say &quot;Wonderful!&quot;  
+</code></pre><p>　　花括号以及括号内的字符（被称为格式域）被str.format()函数传递的对象所取代。花括号中的数值可以用作str.format()函数对象替代的位置。  </p>
+<pre><code>&gt;&gt;&gt; print(&apos;{0} and {1}&apos;.format(&apos;spam&apos;, &apos;eggs&apos;))
+spam and eggs
+&gt;&gt;&gt; print(&apos;{1} and {0}&apos;.format(&apos;spam&apos;, &apos;eggs&apos;))
+eggs and spam  
+</code></pre><p>　　如果在str.format()函数中使用关键字参数，它们的值将会被关键字参数对应的值代替。  </p>
+<pre><code>&gt;&gt;&gt; print(&apos;This {food} is {adjective}.&apos;.format(
+...       food=&apos;spam&apos;, adjective=&apos;absolutely horrible&apos;))   #若在花括号中使用了关键字，而format()函数没有对应的关键字，解释器将会报关键字错误。
+This spam is absolutely horrible.  
+</code></pre><p>　　位置和关键字参数可以任意组合。  </p>
+<pre><code>&gt;&gt;&gt; print(&apos;The story of {0}, {1}, and {other}.&apos;.format(&apos;Bill&apos;, &apos;Manfred&apos;,
+                                               other=&apos;Georg&apos;))
+The story of Bill, Manfred, and Georg.  
+</code></pre><p>　　‘!a’(应用于ascii()),’!s’（应用于str()）和’!r’（应用于repr()）可以在格式化之前进行格式转换：  </p>
+<pre><code>&gt;&gt;&gt; contents = &apos;eels&apos;
+&gt;&gt;&gt; print(&apos;My hovercraft is full of {}.&apos;.format(contents))
+My hovercraft is full of eels.
+&gt;&gt;&gt; print(&apos;My hovercraft is full of {!r}.&apos;.format(contents))
+My hovercraft is full of &apos;eels&apos;.  
+</code></pre><p>　　一个可选的“：”和格式说明符可以跟随字段名。这允许更全面的控制值的格式。下面是保留Pi小数点后三位数的例子：  </p>
+<pre><code>&gt;&gt;&gt;import math
+&gt;&gt;&gt;print(&apos;The balue of PI is approximately {0:.3f}.&apos;.format(math.pi))
+The value of PI is approximately 3.142.  
+</code></pre><p>　　在’：’后面跟一个数字将会使格式域的长度为最小数字个字符的长度。这可以被用于排版表格。  </p>
+<pre><code>&gt;&gt;&gt;table={&quot;Jack&quot;:123,&quot;Jone&quot;:234}
+&gt;&gt;&gt;for a,b in table.items():
+        print(&apos;{0:10} {1:10d}&apos;.format(a,b))
+Jack              123
+Jone              234  
+</code></pre><h3 id="字符串格式"><a href="#字符串格式" class="headerlink" title="字符串格式"></a>字符串格式</h3><p>　　%操作可以用于字符串的格式化。</p>
 
       
       
@@ -1099,7 +1196,7 @@ def fib2(n):   # return Fibonacci series up to n
         <p><span>本文标题:</span><a href="/2018/01/21/python学习/">Python学习</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 hurricane 的个人博客">hurricane</a></p>
         <p><span>发布时间:</span>2018年01月21日 - 23时17分</p>
-        <p><span>最后更新:</span>2018年03月30日 - 00时00分</p>
+        <p><span>最后更新:</span>2018年04月15日 - 00时23分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/01/21/python学习/" title="Python学习">http://focusok.xyz/2018/01/21/python学习/</a>
             <span class="copy-path" data-clipboard-text="原文: http://focusok.xyz/2018/01/21/python学习/　　作者: hurricane" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -1128,7 +1225,7 @@ def fib2(n):   # return Fibonacci series up to n
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python基础"><span class="toc-number">1.</span> <span class="toc-text">Python基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型"><span class="toc-number">1.1.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#整数、浮点数和复数"><span class="toc-number">1.1.1.</span> <span class="toc-text">整数、浮点数和复数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串"><span class="toc-number">1.1.2.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表"><span class="toc-number">1.1.3.</span> <span class="toc-text">列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通往Python编程的第一步"><span class="toc-number">1.2.</span> <span class="toc-text">通往Python编程的第一步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流控制语句"><span class="toc-number">1.3.</span> <span class="toc-text">流控制语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if条件语句"><span class="toc-number">1.3.1.</span> <span class="toc-text">if条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for循环语句"><span class="toc-number">1.3.2.</span> <span class="toc-text">for循环语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#range-函数"><span class="toc-number">1.3.3.</span> <span class="toc-text">range()函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#break和continue以及循环中的else语句"><span class="toc-number">1.3.4.</span> <span class="toc-text">break和continue以及循环中的else语句</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定义函数"><span class="toc-number">1.4.</span> <span class="toc-text">定义函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义默认参数值"><span class="toc-number">1.4.1.</span> <span class="toc-text">定义默认参数值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关键字参数调用"><span class="toc-number">1.4.2.</span> <span class="toc-text">关键字参数调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#任意参数列表"><span class="toc-number">1.4.3.</span> <span class="toc-text">任意参数列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lambda函数（匿名函数）"><span class="toc-number">1.4.4.</span> <span class="toc-text">Lambda函数（匿名函数）　　</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码风格"><span class="toc-number">1.5.</span> <span class="toc-text">代码风格</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#list用作堆栈"><span class="toc-number">1.5.1.</span> <span class="toc-text">list用作堆栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#list用作队列"><span class="toc-number">1.5.2.</span> <span class="toc-text">list用作队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表推导式"><span class="toc-number">1.5.3.</span> <span class="toc-text">列表推导式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#del表达式"><span class="toc-number">1.6.</span> <span class="toc-text">del表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tuples和序列"><span class="toc-number">1.7.</span> <span class="toc-text">Tuples和序列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#集合（sets）"><span class="toc-number">1.8.</span> <span class="toc-text">集合（sets）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字典（dict）"><span class="toc-number">1.9.</span> <span class="toc-text">字典（dict）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#循环技巧"><span class="toc-number">1.10.</span> <span class="toc-text">循环技巧</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#模块"><span class="toc-number">2.</span> <span class="toc-text">模块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#模块深入"><span class="toc-number">2.1.</span> <span class="toc-text">模块深入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#把模块当做脚本执行"><span class="toc-number">2.1.1.</span> <span class="toc-text">把模块当做脚本执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#模块的查找路径"><span class="toc-number">2.1.2.</span> <span class="toc-text">模块的查找路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#“编译”Python文件"><span class="toc-number">2.1.3.</span> <span class="toc-text">“编译”Python文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#标准库"><span class="toc-number">2.2.</span> <span class="toc-text">标准库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dir-函数"><span class="toc-number">2.3.</span> <span class="toc-text">dir()函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#包"><span class="toc-number">2.4.</span> <span class="toc-text">包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#从包中import"><span class="toc-number">2.5.</span> <span class="toc-text">从包中import *</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python基础"><span class="toc-number">1.</span> <span class="toc-text">Python基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型"><span class="toc-number">1.1.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#整数、浮点数和复数"><span class="toc-number">1.1.1.</span> <span class="toc-text">整数、浮点数和复数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串"><span class="toc-number">1.1.2.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表"><span class="toc-number">1.1.3.</span> <span class="toc-text">列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通往Python编程的第一步"><span class="toc-number">1.2.</span> <span class="toc-text">通往Python编程的第一步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流控制语句"><span class="toc-number">1.3.</span> <span class="toc-text">流控制语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if条件语句"><span class="toc-number">1.3.1.</span> <span class="toc-text">if条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for循环语句"><span class="toc-number">1.3.2.</span> <span class="toc-text">for循环语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#range-函数"><span class="toc-number">1.3.3.</span> <span class="toc-text">range()函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#break和continue以及循环中的else语句"><span class="toc-number">1.3.4.</span> <span class="toc-text">break和continue以及循环中的else语句</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定义函数"><span class="toc-number">1.4.</span> <span class="toc-text">定义函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义默认参数值"><span class="toc-number">1.4.1.</span> <span class="toc-text">定义默认参数值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关键字参数调用"><span class="toc-number">1.4.2.</span> <span class="toc-text">关键字参数调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#任意参数列表"><span class="toc-number">1.4.3.</span> <span class="toc-text">任意参数列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lambda函数（匿名函数）"><span class="toc-number">1.4.4.</span> <span class="toc-text">Lambda函数（匿名函数）　　</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码风格"><span class="toc-number">1.5.</span> <span class="toc-text">代码风格</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#list用作堆栈"><span class="toc-number">1.5.1.</span> <span class="toc-text">list用作堆栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#list用作队列"><span class="toc-number">1.5.2.</span> <span class="toc-text">list用作队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表推导式"><span class="toc-number">1.5.3.</span> <span class="toc-text">列表推导式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#del表达式"><span class="toc-number">1.6.</span> <span class="toc-text">del表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tuples和序列"><span class="toc-number">1.7.</span> <span class="toc-text">Tuples和序列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#集合（sets）"><span class="toc-number">1.8.</span> <span class="toc-text">集合（sets）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字典（dict）"><span class="toc-number">1.9.</span> <span class="toc-text">字典（dict）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#循环技巧"><span class="toc-number">1.10.</span> <span class="toc-text">循环技巧</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#模块"><span class="toc-number">2.</span> <span class="toc-text">模块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#模块深入"><span class="toc-number">2.1.</span> <span class="toc-text">模块深入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#把模块当做脚本执行"><span class="toc-number">2.1.1.</span> <span class="toc-text">把模块当做脚本执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#模块的查找路径"><span class="toc-number">2.1.2.</span> <span class="toc-text">模块的查找路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#“编译”Python文件"><span class="toc-number">2.1.3.</span> <span class="toc-text">“编译”Python文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#标准库"><span class="toc-number">2.2.</span> <span class="toc-text">标准库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dir-函数"><span class="toc-number">2.3.</span> <span class="toc-text">dir()函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#包"><span class="toc-number">2.4.</span> <span class="toc-text">包</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#从包中import"><span class="toc-number">2.4.1.</span> <span class="toc-text">从包中import *</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#输入和输出"><span class="toc-number">3.</span> <span class="toc-text">输入和输出</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#设计输出格式"><span class="toc-number">3.1.</span> <span class="toc-text">设计输出格式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串格式"><span class="toc-number">3.1.1.</span> <span class="toc-text">字符串格式</span></a></li></ol></li></ol></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
