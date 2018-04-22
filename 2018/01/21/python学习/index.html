@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://focusok.xyz/2018/01/21/python学习/index.html">
 <meta property="og:site_name" content="hurrican">
 <meta property="og:description" content="Python基础数据类型整数、浮点数和复数　　Python可以处理任意大的整数和浮点数，整数为int类型，浮点数为float类型。整数和浮点数均能够通过＋、－、*、/进行加减乘除运算。">
-<meta property="og:updated_time" content="2018-04-17T16:13:39.231Z">
+<meta property="og:updated_time" content="2018-04-22T15:47:39.310Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python学习">
 <meta name="twitter:description" content="Python基础数据类型整数、浮点数和复数　　Python可以处理任意大的整数和浮点数，整数为int类型，浮点数为float类型。整数和浮点数均能够通过＋、－、*、/进行加减乘除运算。">
@@ -1202,7 +1202,99 @@ b&apos;d&apos;
 </code></pre><p>　　<br>　解析对象，若f是一个已经打开的文本文件对象，可以使用load()函数：  </p>
 <pre><code>x = json.load(f)  
 </code></pre><p>　　 这些简单的序列化技术可以解决列表和字典数据类型的序列化问题，但对于其他随意的类实体，序列化还需要另外的操作。json模块说明文档有相关说明。</p>
+<h1 id="错误和异常"><a href="#错误和异常" class="headerlink" title="错误和异常"></a>错误和异常</h1><p> 　　有两种错误：语法错误和异常。　　</p>
+<h2 id="语法错误"><a href="#语法错误" class="headerlink" title="语法错误"></a>语法错误</h2><p>　　语法错误，也即语句分析错误，可能是在Python学习过程中最常见的错误：  </p>
+<pre><code>&gt;&gt;&gt; while True print(&apos;Hello world&apos;)  #缺少：
+File &quot;&lt;stdin&gt;&quot;, line 1
+while True print(&apos;Hello world&apos;)
+           ^
+SyntaxError: invalid syntax  
+</code></pre><h2 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h2><p>　　即使是句法声明和表达在句法构成上是完全正确的，在语句执行时还是可能出现错误。在执行过程中检测到的错误称为异常，异常不是无条件的错误。大多数异常并不是通过程序去解决，相反，是在运行结果中展示错误消息：　　</p>
+<pre><code>&gt;&gt;&gt; 10 * (1/0)
+Traceback (most recent call last):
+　File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+ZeroDivisionError: division by zero
+&gt;&gt;&gt; 4 + spam*3
+Traceback (most recent call last):
+　File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+NameError: name &apos;spam&apos; is not defined
+&gt;&gt;&gt; &apos;2&apos; + 2
+Traceback (most recent call last):
+　File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+TypeError: Can&apos;t convert &apos;int&apos; object to str implicitly   
+</code></pre><p>   错误提示最后一行说明了发生了什么异常。异常有不同的种类，上述例子中的异常分别是ZeroDivisionError、NameError和TypeError。作为异常类型打印出来的字符串是发生的内置异常的名称。这对于所有内置的异常都是适用的，但是对于用户定义的异常（尽管它经常是很有用的）并不适用。标准异常名称是内置标识符（不保留关键字）。<br>　　这一行的其余部分根据异常的类型和原因提供更详细的信息。<br>　　错误消息的前面部分以堆栈回溯的形式显示了异常发生的上下文。一般来说，它包括一个堆栈回溯列出的源代码行；但是，它不会显示标准输入读取的行。  </p>
+<h2 id="处理异常"><a href="#处理异常" class="headerlink" title="处理异常"></a>处理异常</h2><p>　　可以编写程序去处理特定的异常。请看下面的示例，它向用户询问输入，直到输入一个有效的整数，但允许用户中断程序(使用Control-C或任何操作系统支持的中断方式)；注意，用户生成的中断是通过KeyboardInterrupt异常来实现的。  </p>
+<pre><code>&gt;&gt;&gt;while True:
+        try:
+            x=int(input(&quot;Please input an number:&quot;))  
+            break
+        except ValueError:
+            print(&quot;Oops! That was no valid number.Try again...&quot;)  
+</code></pre><p>　　try声明的工作方式如下：  </p>
+<p>　　1. 首先，在try关键字和except关键字try语句会被执行；<br>　　2. 如果没有发生异常，except语句会被跳过不执行而且try语句执行结束；<br>　　3. 如果try语句执行过程中出现异常，剩下的语句会被跳过执行。如果发生的异常与except关键字后的异常类型匹配，except语句会被执行，然后又回到try语句重新执行；<br>　　4.如果发生的异常与except语句中命名的异常不匹配，则将其传递到外部try语句;如果没有找到处理程序，它就是一个未处理的异常，语句执行停止，并像上面那样显示异常消息。<br>　　一个try声明可以有两个或更多except语句去处理不同的异常。一种情况下，最多只有一个异常处理语句被执行。处理程序只处理在相应的try子句中出现的异常，而不是在相同的try语句的其他处理程序中。一个except语句将多个异常用一个tuple类型进行命名，例如:  </p>
+<pre><code>except (RuntimeError, TypeError, NameError):
+    pass  
+</code></pre><p>　　如果一个类是相同的类或一个基类(但不是另一种方式)，那么在except语句中的类是可以兼容的(但另一种方式——派生类与基类不兼容)。例如，以下代码将以该顺序打印B、C、D:  </p>
+<pre><code>class B(Exception):
+    pass
 
+class C(B):
+    pass
+
+class D(C):
+    pass
+for cls in [B, C, D]:
+    try:
+        raise cls()
+    except D:
+        print(&quot;D&quot;)
+    except C:
+        print(&quot;C&quot;)
+    except B:
+        print(&quot;B&quot;)  
+</code></pre><p>　　<br>　　请注意，如果except语句顺序调转(将except B放在最前面)，它将会打印B、B、B。<br>　　最后一个except语句可以省略异常名称，作为其他所有异常处理的方法。使用这个要非常小心，因为这样很容易掩盖真正的编程错误。它还可以用于打印错误消息，然后重新引发异常(允许调用方处理异常):  </p>
+<pre><code>import sys
+
+try:
+    f = open(&apos;myfile.txt&apos;)
+    s = f.readline()
+    i = int(s.strip())
+except OSError as err:
+    print(&quot;OS error: {0}&quot;.format(err))
+except ValueError:
+    print(&quot;Could not convert data to an integer.&quot;)
+except:
+    print(&quot;Unexpected error:&quot;, sys.exc_info()[0])
+    raise   
+</code></pre><p>　　try…except语句之外可以有else语句，当它出现时，必须是跟在except语句之后。else语句对try子句未引发异常时而必须需要执行的代码非常有用。例如:  </p>
+<pre><code>for arg in sys.argv[1:]:
+    try:
+            f = open(arg, &apos;r&apos;)
+    except OSError:
+         print(&apos;cannot open&apos;, arg)
+    else:
+         print(arg, &apos;has&apos;, len(f.readlines()), &apos;lines&apos;)
+         f.close()  
+</code></pre><p>　　使用else语句要比在try子句中添加额外的代码好，因为它避免了意外地捕获由try…except语句保护的代码所引发的异常。<br>　　当异常发生时，它可能具有相关的值，也称为异常的参数。参数的存在和类型取决于异常类型。<br>　　except语句可以在异常名之后指定一个变量。该变量被绑定到一个异常实例，其参数存储在instance.args中。为了方便起见，定义<strong>str</strong>(用来直接直接打印异常实例的参数，而不必引用.args。也可以先实例化一个异常，然后再抛出异常，并根据需要添加任何属性。  </p>
+<pre><code>try:
+    raise Exception(&apos;spam&apos;, &apos;eggs&apos;)
+except Exception as inst:
+    print(type(inst))    # the exception instance
+    print(inst.args)     # arguments stored in .args
+    print(inst)          # __str__ allows args to be printed directly,
+                 # but may be overridden in exception subclasses
+    x, y = inst.args     # unpack args
+    print(&apos;x =&apos;, x)
+    print(&apos;y =&apos;, y)  
+</code></pre><p>　　如果异常有参数，则将其打印为未处理异常消息的最后一部分(‘ detail ‘)。　　<br>　　异常处理程序不只是处理在try子句中出现的异常，也可以处理在try子句中被调用的函数(甚至是间接的)出现的异常。例如:　　</p>
+<pre><code>def this_fails():
+    x = 1/0
+
+try:
+    this_fails()
+except ZeroDivisionError as err:
+    print(&apos;Handling run-time error:&apos;, err)
+</code></pre>
       
       
         <div class="page-reward">
@@ -1260,7 +1352,7 @@ b&apos;d&apos;
         <p><span>本文标题:</span><a href="/2018/01/21/python学习/">Python学习</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 hurricane 的个人博客">hurricane</a></p>
         <p><span>发布时间:</span>2018年01月21日 - 23时17分</p>
-        <p><span>最后更新:</span>2018年04月18日 - 00时13分</p>
+        <p><span>最后更新:</span>2018年04月22日 - 23时47分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/01/21/python学习/" title="Python学习">http://focusok.xyz/2018/01/21/python学习/</a>
             <span class="copy-path" data-clipboard-text="原文: http://focusok.xyz/2018/01/21/python学习/　　作者: hurricane" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -1289,7 +1381,7 @@ b&apos;d&apos;
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python基础"><span class="toc-number">1.</span> <span class="toc-text">Python基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型"><span class="toc-number">1.1.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#整数、浮点数和复数"><span class="toc-number">1.1.1.</span> <span class="toc-text">整数、浮点数和复数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串"><span class="toc-number">1.1.2.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表"><span class="toc-number">1.1.3.</span> <span class="toc-text">列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通往Python编程的第一步"><span class="toc-number">1.2.</span> <span class="toc-text">通往Python编程的第一步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流控制语句"><span class="toc-number">1.3.</span> <span class="toc-text">流控制语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if条件语句"><span class="toc-number">1.3.1.</span> <span class="toc-text">if条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for循环语句"><span class="toc-number">1.3.2.</span> <span class="toc-text">for循环语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#range-函数"><span class="toc-number">1.3.3.</span> <span class="toc-text">range()函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#break和continue以及循环中的else语句"><span class="toc-number">1.3.4.</span> <span class="toc-text">break和continue以及循环中的else语句</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定义函数"><span class="toc-number">1.4.</span> <span class="toc-text">定义函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义默认参数值"><span class="toc-number">1.4.1.</span> <span class="toc-text">定义默认参数值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关键字参数调用"><span class="toc-number">1.4.2.</span> <span class="toc-text">关键字参数调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#任意参数列表"><span class="toc-number">1.4.3.</span> <span class="toc-text">任意参数列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lambda函数（匿名函数）"><span class="toc-number">1.4.4.</span> <span class="toc-text">Lambda函数（匿名函数）　　</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码风格"><span class="toc-number">1.5.</span> <span class="toc-text">代码风格</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#list用作堆栈"><span class="toc-number">1.5.1.</span> <span class="toc-text">list用作堆栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#list用作队列"><span class="toc-number">1.5.2.</span> <span class="toc-text">list用作队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表推导式"><span class="toc-number">1.5.3.</span> <span class="toc-text">列表推导式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#del表达式"><span class="toc-number">1.6.</span> <span class="toc-text">del表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tuples和序列"><span class="toc-number">1.7.</span> <span class="toc-text">Tuples和序列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#集合（sets）"><span class="toc-number">1.8.</span> <span class="toc-text">集合（sets）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字典（dict）"><span class="toc-number">1.9.</span> <span class="toc-text">字典（dict）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#循环技巧"><span class="toc-number">1.10.</span> <span class="toc-text">循环技巧</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#模块"><span class="toc-number">2.</span> <span class="toc-text">模块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#模块深入"><span class="toc-number">2.1.</span> <span class="toc-text">模块深入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#把模块当做脚本执行"><span class="toc-number">2.1.1.</span> <span class="toc-text">把模块当做脚本执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#模块的查找路径"><span class="toc-number">2.1.2.</span> <span class="toc-text">模块的查找路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#“编译”Python文件"><span class="toc-number">2.1.3.</span> <span class="toc-text">“编译”Python文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#标准库"><span class="toc-number">2.2.</span> <span class="toc-text">标准库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dir-函数"><span class="toc-number">2.3.</span> <span class="toc-text">dir()函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#包"><span class="toc-number">2.4.</span> <span class="toc-text">包</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#从包中import"><span class="toc-number">2.4.1.</span> <span class="toc-text">从包中import *</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#输入和输出"><span class="toc-number">3.</span> <span class="toc-text">输入和输出</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#设计输出格式"><span class="toc-number">3.1.</span> <span class="toc-text">设计输出格式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串格式化"><span class="toc-number">3.1.1.</span> <span class="toc-text">字符串格式化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#读写文件"><span class="toc-number">3.2.</span> <span class="toc-text">读写文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#文件对象的方法"><span class="toc-number">3.2.1.</span> <span class="toc-text">文件对象的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用json格式存储"><span class="toc-number">3.2.2.</span> <span class="toc-text">用json格式存储</span></a></li></ol></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python基础"><span class="toc-number">1.</span> <span class="toc-text">Python基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型"><span class="toc-number">1.1.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#整数、浮点数和复数"><span class="toc-number">1.1.1.</span> <span class="toc-text">整数、浮点数和复数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串"><span class="toc-number">1.1.2.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表"><span class="toc-number">1.1.3.</span> <span class="toc-text">列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通往Python编程的第一步"><span class="toc-number">1.2.</span> <span class="toc-text">通往Python编程的第一步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流控制语句"><span class="toc-number">1.3.</span> <span class="toc-text">流控制语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if条件语句"><span class="toc-number">1.3.1.</span> <span class="toc-text">if条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for循环语句"><span class="toc-number">1.3.2.</span> <span class="toc-text">for循环语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#range-函数"><span class="toc-number">1.3.3.</span> <span class="toc-text">range()函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#break和continue以及循环中的else语句"><span class="toc-number">1.3.4.</span> <span class="toc-text">break和continue以及循环中的else语句</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定义函数"><span class="toc-number">1.4.</span> <span class="toc-text">定义函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义默认参数值"><span class="toc-number">1.4.1.</span> <span class="toc-text">定义默认参数值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关键字参数调用"><span class="toc-number">1.4.2.</span> <span class="toc-text">关键字参数调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#任意参数列表"><span class="toc-number">1.4.3.</span> <span class="toc-text">任意参数列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lambda函数（匿名函数）"><span class="toc-number">1.4.4.</span> <span class="toc-text">Lambda函数（匿名函数）　　</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码风格"><span class="toc-number">1.5.</span> <span class="toc-text">代码风格</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#list用作堆栈"><span class="toc-number">1.5.1.</span> <span class="toc-text">list用作堆栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#list用作队列"><span class="toc-number">1.5.2.</span> <span class="toc-text">list用作队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表推导式"><span class="toc-number">1.5.3.</span> <span class="toc-text">列表推导式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#del表达式"><span class="toc-number">1.6.</span> <span class="toc-text">del表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tuples和序列"><span class="toc-number">1.7.</span> <span class="toc-text">Tuples和序列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#集合（sets）"><span class="toc-number">1.8.</span> <span class="toc-text">集合（sets）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字典（dict）"><span class="toc-number">1.9.</span> <span class="toc-text">字典（dict）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#循环技巧"><span class="toc-number">1.10.</span> <span class="toc-text">循环技巧</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#模块"><span class="toc-number">2.</span> <span class="toc-text">模块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#模块深入"><span class="toc-number">2.1.</span> <span class="toc-text">模块深入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#把模块当做脚本执行"><span class="toc-number">2.1.1.</span> <span class="toc-text">把模块当做脚本执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#模块的查找路径"><span class="toc-number">2.1.2.</span> <span class="toc-text">模块的查找路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#“编译”Python文件"><span class="toc-number">2.1.3.</span> <span class="toc-text">“编译”Python文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#标准库"><span class="toc-number">2.2.</span> <span class="toc-text">标准库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dir-函数"><span class="toc-number">2.3.</span> <span class="toc-text">dir()函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#包"><span class="toc-number">2.4.</span> <span class="toc-text">包</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#从包中import"><span class="toc-number">2.4.1.</span> <span class="toc-text">从包中import *</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#输入和输出"><span class="toc-number">3.</span> <span class="toc-text">输入和输出</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#设计输出格式"><span class="toc-number">3.1.</span> <span class="toc-text">设计输出格式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串格式化"><span class="toc-number">3.1.1.</span> <span class="toc-text">字符串格式化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#读写文件"><span class="toc-number">3.2.</span> <span class="toc-text">读写文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#文件对象的方法"><span class="toc-number">3.2.1.</span> <span class="toc-text">文件对象的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用json格式存储"><span class="toc-number">3.2.2.</span> <span class="toc-text">用json格式存储</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#错误和异常"><span class="toc-number">4.</span> <span class="toc-text">错误和异常</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#语法错误"><span class="toc-number">4.1.</span> <span class="toc-text">语法错误</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异常"><span class="toc-number">4.2.</span> <span class="toc-text">异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理异常"><span class="toc-number">4.3.</span> <span class="toc-text">处理异常</span></a></li></ol></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
