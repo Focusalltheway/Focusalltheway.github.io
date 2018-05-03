@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://focusok.xyz/2018/01/21/python学习/index.html">
 <meta property="og:site_name" content="hurrican">
 <meta property="og:description" content="Python基础数据类型整数、浮点数和复数　　Python可以处理任意大的整数和浮点数，整数为int类型，浮点数为float类型。整数和浮点数均能够通过＋、－、*、/进行加减乘除运算。">
-<meta property="og:updated_time" content="2018-05-03T15:44:10.457Z">
+<meta property="og:updated_time" content="2018-05-03T16:21:27.434Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python学习">
 <meta name="twitter:description" content="Python基础数据类型整数、浮点数和复数　　Python可以处理任意大的整数和浮点数，整数为int类型，浮点数为float类型。整数和浮点数均能够通过＋、－、*、/进行加减乘除运算。">
@@ -984,26 +984,26 @@ def fib2(n):   # return Fibonacci series up to n
 <p>　　当初始化之后，Python程序可以更改sys.path。因为包含脚本文件夹初始化sys.path的优先级是最高的，因此当引用的模块在包含的脚本文件夹中，同时有个相同名字的模块在标准模块库中时，解析器导入的时文件夹中的模块。  </p>
 <h3 id="“编译”Python文件"><a href="#“编译”Python文件" class="headerlink" title="“编译”Python文件"></a>“编译”Python文件</h3><p>　　为了加速加载模块，Python将会把每个模块编译的版本缓存在__pycache__文件下module.version.pyc文件里，这个文件也就是该版本下的Python对编译文件进行编码的地方；它一般会包含Python的版本号。比如，在CPython3.3发布版中编译spam.py的文件将会被缓存为__pycache__/spam.cpython-33.pyc。这种命名的转换允许各种版本Python编译的模块共存。<br>　　Python会检查源代码的修改日期与编译后的版本，以查看是否过期，是否需要重新编译。这完全是一个自动进行的过程。并且，编译过的模块是不依赖于平台的，因此同样的库可以在不同架构的系统中共享。<br>　　Python会在两种情况下检查缓存。首先，它总是重新编译，并且不存储直接从命令行加载的模块的结果。其次，如果没有源模块，它将不会检查缓存。为了支持非源代码（仅编译的）的分发，编译后的模块必须位于源目录中，并且不能有一个源模块。  </p>
 <p>TIPS:  </p>
-<p>　　</p>
 <ol>
-<li><p>可以用Python命令中加入-O或-OO去减小编译模块的大小。-O转换会删除源码中的断言语句，-OO转换会删除源码中的断言语句和__doc__字符串。<br>　　2.当程序运行.pyc文件并不会比.py文件速度快。而是加载.pyc文件比.py文件快。<br>　　3.compileall模块可以为一个文件夹下的所有模块穿件一个.pyc文件。  </p>
+<li>可以用Python命令中加入-O或-OO去减小编译模块的大小。-O转换会删除源码中的断言语句，-OO转换会删除源码中的断言语句和__doc__字符串。  </li>
+<li>当程序运行.pyc文件并不会比.py文件速度快。而是加载.pyc文件比.py文件快。  </li>
+<li>compileall模块可以为一个文件夹下的所有模块穿件一个.pyc文件。  </li>
+</ol>
 <h2 id="标准库"><a href="#标准库" class="headerlink" title="标准库"></a>标准库</h2><p>　　Python自带了一个标准模块的库。有些模块被内置到解释器里，这些模块提供对不属于语言核心部分的操作的访问，但它们是内置的，这对于无论是为了提高效率，还是提供对操作系统原语（如系统调用）的访问都是必需的。这些模块的集合也是有配置要求的，它也依赖于底层平台。比如，winreg模块只能用于Windows系统。一个值得注意的特殊模块是sys模块，它被内置在任意平台的Python解释器中。变量sys.path决定了解释器查找模块的路径。它默认由系统环境中PYTHONPATH变量初始化，或者在PYTHONPATH未被设置的情况下由一个默认的内置值初始化。可以使用标准列表操作更改它：</p>
 <pre><code>&gt;&gt;&gt; import sys
 &gt;&gt;&gt; sys.path.append(&apos;/ufs/guido/lib/python&apos;)  
-</code></pre><h2 id="dir-函数"><a href="#dir-函数" class="headerlink" title="dir()函数"></a>dir()函数</h2><p>　　内置函数dir()被用于模块定义的名字，它返回一系列字符串。</p>
+</code></pre><h2 id="dir-函数"><a href="#dir-函数" class="headerlink" title="dir()函数"></a>dir()函数</h2><p>　　内置函数dir()被用于模块定义的名字，它返回一系列字符串。  </p>
 <pre><code>&gt;&gt;&gt;import fibo,sys
-&gt;&gt;&gt;dir(fibo)
-[&apos;__builtins__&apos;,&apos;__cached__&apos;,&apos;__doc__&apos;,&apos;__file__&apos;,&apos;__l    oader__&apos;,&apos;__name__&apos;,&apos;__package__&apos;,&apos;__spec__&apos;,&apos;fib&apos;,&apos;fib2&apos;]
+    &gt;&gt;&gt;dir(fibo)  
+    [&apos;__builtins__&apos;,&apos;__cached__&apos;,&apos;__doc__&apos;,&apos;__file__&apos;,&apos;__l    oader__&apos;,&apos;__name__&apos;,&apos;__package__&apos;,&apos;__spec__&apos;,&apos;fib&apos;,&apos;fib2&apos;]&gt;&gt;&gt;import fibo,sys
 </code></pre><p>　　如果不带参数，dir()返回当前所定义的名字：  </p>
 <pre><code>&gt;&gt;&gt;a=[1,2,3]
 &gt;&gt;&gt;import fibo
 &gt;&gt;&gt;fib=fibo.fib
 &gt;&gt;&gt;dir()
- [&apos;__annotations__&apos;,&apos;__builtins__&apos;,&apos;__doc__&apos;,&apos;__l    oader__&apos;,&apos;__name__&apos;,&apos;__package__&apos;,&apos;__spec__&apos;,&apos;a&apos;,&apos;fib&apos;,&apos;fibo&apos;]  
+ [&apos;__annotations__&apos;,&apos;__builtins__&apos;,&apos;__doc__&apos;,&apos;__l    oader__&apos;,&apos;__name__&apos;,&apos;__package__&apos;,&apos;__spec__&apos;,&apos;a&apos;,&apos;fib&apos;,&apos;fibo&apos;]    
 </code></pre><p>　　dir()返回所有形式的命名：变量，模块，函数等等，但它不会列出内置函数和变量的命名。内置函数和变量被定义在builtins模块中，使用dir(builtins)可以返回所有内置函数和变量的名字。  </p>
-<h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2></li>
-</ol>
-<p>　　包是通过使用“点号模块名”来构造Python的模块名称空间的一种方式。例如，模块名A.B就是包在命名为A中的B模块。就像使用不同模块的中的相同名字不必担心彼此的全局变量名称一样,点号模块名称也使得使用者不必担心不同包如NumPy或Python的图像库中相同的模块产生混淆。<br>　　想象一下，如果你想设计一个统一处理声音文件和声音数据的模块集合（包）。声音文件有很多种格式（一般以不同的扩展名区分，比如.wav,.aiff），因此你需要不断更新和增加模块去维持各文件格式之间的转换。声音数据也可能需要很多种不同的操作（比如混音，增加回响，提供平衡器功能，创建人工音响效果），因此你将会编写一个无尽头的模块库去实现这些操作。下面是你所涉及的包可能呈现的结构方式：  </p>
+<h2 id="包"><a href="#包" class="headerlink" title="包"></a>包</h2><p>　　包是通过使用“点号模块名”来构造Python的模块名称空间的一种方式。例如，模块名A.B就是包在命名为A中的B模块。就像使用不同模块的中的相同名字不必担心彼此的全局变量名称一样,点号模块名称也使得使用者不必担心不同包如NumPy或Python的图像库中相同的模块产生混淆。<br>　　想象一下，如果你想设计一个统一处理声音文件和声音数据的模块集合（包）。声音文件有很多种格式（一般以不同的扩展名区分，比如.wav,.aiff），因此你需要不断更新和增加模块去维持各文件格式之间的转换。声音数据也可能需要很多种不同的操作（比如混音，增加回响，提供平衡器功能，创建人工音响效果），因此你将会编写一个无尽头的模块库去实现这些操作。下面是你所涉及的包可能呈现的结构方式：  </p>
 <pre><code>sound/                          Top-level package
     __init__.py               Initialize the sound package
     formats/                  Subpackage for file format conversions
@@ -1026,13 +1026,13 @@ def fib2(n):   # return Fibonacci series up to n
           equalizer.py
           vocoder.py
           karaoke.py
-          ...      
+          ...
 </code></pre><p>　　当导入这个包时，Python会在sys.path定义的路径中查找包的子文件夹。<br>　　__init__.py使Python将文件夹当做封闭包结构；这种做法防止了在后面查询模块名时，无意中包名和模块名相同时的冲突。最简单的情况下，__init__.py可以只是一个空文件，当然它也可以执行包的初始化代码或者设置__all__变量。<br>　　用户可以从包中导入自己定义的模块，比如：  </p>
-<pre><code>import sound.effects.echo   
+<pre><code>import sound.effects.echo 
 </code></pre><p> 　　这会载入sound.effects.echo子模块。但使用模块中的函数时，一定要使用全名：  </p>
 <pre><code>sound.effects.echo.echofilter(input, output, delay=0.7, atten=4)    
 </code></pre><p>　　 另一种导入子模块的方法是：  </p>
-<pre><code>from sound.effects import echo  
+<pre><code>from sound.effects import echo 
 </code></pre><p>　　 这也会载入echo子模块，但使用模块中的函数时，它可以不需要包名作为前缀：  </p>
 <pre><code>echo.echofilter(input, output, delay=0.7, atten=4)  
 </code></pre><p>　　<br>    当然也可以直接导入函数或变量：  </p>
@@ -1041,7 +1041,7 @@ def fib2(n):   # return Fibonacci series up to n
 <pre><code>echofilter(input,output,delay=0.7,atten=4)  
 </code></pre><p>　　 当使用from package import item的形式，item可以是包中的一个子模块，也可以是包中其他任意的名字（像类名、函数名、变量名等）。import声明首先会检测item是否被定义在包内，如果不是，它会假设item是一个模块并试图加载它。如果在包中没有找到item，就会报出ImportError异常。　　<br>　　相反，当使用像import item.subitem.subsubitem的形式，除了最后一个item可以不是包，其他都必须是包名；最后一个item可以是一个模块或包但不可以是前面一个item中定义的类、函数或变量。  </p>
 <h3 id="从包中import"><a href="#从包中import" class="headerlink" title="从包中import *"></a>从包中import *</h3><p>　　当使用form sound.effects import <em>会发生什么？理想情况下，用户可能希望这种方法可以以某种方法进入文件系统，找出包中的子模块，并将它们全部导入。这可能会花费很长时间而且导入子模块会产生意想不到的副作用（当然只有在子模块被显式导入时，这种副作用才会产生）。<br>　　唯一解决的方法是包的作者提供包的显式目录。import的声明会使用下列约束：如果包中__init__.py代码定义了一个名为__all__的列表时，那这个列表将会被作为from package import </em>导入的模块名列表。它要求包的作者在包版本更新时也及时更新该列表。比如：sound/effects/__init__.py中可以包含如下代码：  </p>
-<pre><code>__all__=[&apos;echo&apos;,&apos;surround&apos;,&apos;reverse&apos;]  
+<pre><code>__all__=[&apos;echo&apos;,&apos;surround&apos;,&apos;reverse&apos;] 
 </code></pre><p>　　这意味着from sound.effects import <em>将会从包中加载这三个子模块。<br>　　如果没有定义__all__，from sound.effects import </em>声明不会将sound.effects包中的任意子模块名导入到当前的命名空间；它只会在确定sound.effects包名已经被导入后再导入包中定义的名称。这些名称包含__init__.py中定义的任意名称和任意在前面已经通过import声明显式导入的包中的子模块名。考虑下列代码：  </p>
 <pre><code>import sound.effects.echo
 import sound.effects.surround
@@ -1446,7 +1446,7 @@ TypeError: unsupported operand type(s) for /: &apos;str&apos; and &apos;str&apos
         <p><span>本文标题:</span><a href="/2018/01/21/python学习/">Python学习</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 hurricane 的个人博客">hurricane</a></p>
         <p><span>发布时间:</span>2018年01月21日 - 23时17分</p>
-        <p><span>最后更新:</span>2018年05月03日 - 23时44分</p>
+        <p><span>最后更新:</span>2018年05月04日 - 00时21分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/01/21/python学习/" title="Python学习">http://focusok.xyz/2018/01/21/python学习/</a>
             <span class="copy-path" data-clipboard-text="原文: http://focusok.xyz/2018/01/21/python学习/　　作者: hurricane" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
