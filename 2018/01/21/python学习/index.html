@@ -11,7 +11,7 @@
 <meta property="og:url" content="http://focusok.xyz/2018/01/21/python学习/index.html">
 <meta property="og:site_name" content="hurrican">
 <meta property="og:description" content="Python基础数据类型整数、浮点数和复数　　Python可以处理任意大的整数和浮点数，整数为int类型，浮点数为float类型。整数和浮点数均能够通过＋、－、*、/进行加减乘除运算。">
-<meta property="og:updated_time" content="2018-07-01T15:14:10.447Z">
+<meta property="og:updated_time" content="2018-07-05T16:24:42.809Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python学习">
 <meta name="twitter:description" content="Python基础数据类型整数、浮点数和复数　　Python可以处理任意大的整数和浮点数，整数为int类型，浮点数为float类型。整数和浮点数均能够通过＋、－、*、/进行加减乘除运算。">
@@ -1529,9 +1529,134 @@ while True:
 <p>　　衍生类的实例也没什么特别的：DerivedClassName()穿件一个新的类实例。Method引用将会以下面的方式被处理：如果需要的话，沿着基类的链向下查找相关的类属性，如果该属性产生一个函数对象，则该方法引用是有效的。<br>　　衍生类可能会重写它们基类的的methods。因为方法在调用同一个对象的method时优先级是等同的，所以当基类中的method调用同一个基类中的另一个method时，最终可能会调用一个派生类的method来覆盖它。（对于C++程序员来说：Python中所有的method实际上都是虚函数）<br>　　派生类中的method重写实际上可能想要扩展method而不是简单地替换同名的基类method。有一种简单的方法可以直接调用基类method：只需调用BaseClassName.methodname(self,arguments)。（但注意，只有在全局范围内以BaseClassName访问基类时才会起作用。）<br>　　Python有两个内置的关于继承的函数：  </p>
 <ol>
 <li>使用isinstance()去检查实例类型：isinstance(obj,int)在obj.__class__是int或是int的衍生类时返回True;  </li>
-<li>使用issubclass()去检查类的继承：issubclass(bool,int)返回True因为bool是int的子类。  <h3 id="多基类继承"><a href="#多基类继承" class="headerlink" title="多基类继承"></a>多基类继承</h3>　　　　</li>
+<li><p>使用issubclass()去检查类的继承：issubclass(bool,int)返回True因为bool是int的子类。  </p>
+<h3 id="多继承"><a href="#多继承" class="headerlink" title="多继承"></a>多继承</h3><p>　　Python同样支持多继承。一个多继承的类定义形式如下：  </p>
+<pre><code>class DerivedClassName(Base1, Base2, Base3):
+    &lt;statement-1&gt;
+    .
+    .
+    .
+    &lt;statement-N&gt;  
+</code></pre><p>　　对于大多数场合，最简单的情况下，查询父类继承的属性，查询顺序的原则是深度优先、从左到右，而不是在层次结构中有重叠的同一类中搜索两次。因此，如果一个属性没有在 DerivedClassName中找到，那么它将在Base1中搜索，然后（递归地）在Base1的基类中搜索，如果没有找到它，那么它就会在Base2中搜索，以此类推。<br>　　事实上，它比上面说的稍微复杂一点。method解析顺序是动态变化的，以支持对super（）的调用。这种方法在其他一些多继承语言中被称为“调用下一个方法”，它比单继承语言中专有调用更强大。<br>　　动态排序是必要的，因为所有多重继承的情况都显示了一个或多个菱形关系（其中至少有一个父类可以通过来自最底类的多个路径访问）。例如，所有的类都继承object，所以任何多重继承的情况都提供了不止一条路径到object。为了阻止多次访问基类，动态算法将搜索顺序线性化，以保持每个类中特定的左右的顺序，只调用基类一次，这是单调的（也就是说一个类可以被子类化而不会影响其基类访问的优先顺序）。综上所述，这些属性使设计具有多重继承的可靠和可扩展的类成为可能。  </p>
+<h2 id="私有变量"><a href="#私有变量" class="headerlink" title="私有变量"></a>私有变量</h2></li>
 </ol>
+<p>　　在Python中不存在只能在对象内部访问的“私有”实例变量。但是，大多数Python代码有一个约定俗成的规定：带有单下划线前缀的名称（如垃_spam）应该被视为API的非公开部分（无论它是一个函数还是method或数据成员）。它应该被认为是一个实现细节，并且阻止在没有有通知的情况下对这些成员进行更改。<br>　　由于类私有成员有一个有效的用例（即避免名称与子类定义的名称冲突），所以对这种机制的有限支持，称为名称矫正。任何像__spam形式的标识符（至少以两个下划线为名称开头，名称尾部最多一个下划线）会被解释器替换成_classname__spam,classname是当前的类名，带有前导下划线。在类的定义中，无论这种表示符在哪个地方，都会默认进行这样的名称转化处理。<br>　　名称矫正有助于让子类重写method而不破坏同类的method的调用。例如：  </p>
+<pre><code>class Mapping:
+    def __init__(self, iterable):
+        self.items_list = []
+        self.__update(iterable)
 
+    def update(self, iterable):
+        for item in iterable:
+            self.items_list.append(item)
+
+    __update = update   # private copy of original update() method
+
+class MappingSubclass(Mapping):
+
+    def update(self, keys, values):
+        # provides new signature for update()
+        # but does not break __init__()
+        for item in zip(keys, values):
+            self.items_list.append(item)  
+</code></pre><p>　　需要注意的是，这些矫正规则的设计主要是为了避免冲突;但仍然可以访问或修改一个被认为是私有的变量。这可能在一些特殊情况下很有用，比如调试器。<br>　　传递给exec（）或eval（）的代码并不会将调用的类名当做当前类;这类似于全局语句的效果，它的效果同样局限于字节编译的代码。同样的限制也适用于getattr（）、setattr（）和delattr（），以及直接引用的__dict__。  </p>
+<h2 id="零零碎碎"><a href="#零零碎碎" class="headerlink" title="零零碎碎"></a>零零碎碎</h2><p>　　有时，有一个类似于Pascal“record”或C“struct”的数据类型是很有用的，它将一些命名的数据项捆绑在一起。一个空的类定义会很好地完成这项工作：　　</p>
+<pre><code>class Employee:
+    pass
+
+john = Employee()  # Create an empty employee record
+
+# Fill the fields of the record
+john.name = &apos;John Doe&apos;
+john.dept = &apos;computer lab&apos;
+john.salary = 1000
+</code></pre><p>　　一段期望特定抽象数据类型的Python代码通常可以传递一个模拟该数据类型方法的类。例如，如果你有一个函数，它从一个文件对象中格式化一些数据，你可以用方法read（）和readline（）来定义一个类，它从一个字符串缓冲区获取数据，并将其作为参数传递。<br>　　实例方法对象也有属性：m．self是方法m（）创建的实例化对象，m.__func__的实例对象与该方法对应的函数对象。  </p>
+<h2 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h2><p>　　到目前为止，您可能已经注意到，大多数容器类对象都可以使用for语句进行循环：</p>
+<pre><code>for element in [1, 2, 3]:
+    print(element)
+for element in (1, 2, 3):
+    print(element)
+for key in {&apos;one&apos;:1, &apos;two&apos;:2}:
+    print(key)
+for char in &quot;123&quot;:
+    print(char)
+for line in open(&quot;myfile.txt&quot;):
+    print(line, end=&apos;&apos;)  
+</code></pre><p>　　这种访问方式清晰、简洁、方便。迭代器的使用遍及并统一了Python。在背后，for语句在容器对象上调用iter（）。这个函数返回一个迭代器对象，它定义了next（）方法，next()函数每次进入容器访问一个元素。当没有更多的元素时，next（）会引发一个停止迭代异常，它告诉for循环终止。可以使用内置函数 next()函数 来调用__next__（）方法;下面的例子展示了它是如何工作的：  </p>
+<pre><code>&gt;&gt;&gt; s = &apos;abc&apos;
+&gt;&gt;&gt; it = iter(s)
+&gt;&gt;&gt; it
+&lt;iterator object at 0x00A1DB50&gt;
+&gt;&gt;&gt; next(it)
+&apos;a&apos;
+&gt;&gt;&gt; next(it)
+&apos;b&apos;
+&gt;&gt;&gt; next(it)
+&apos;c&apos;
+&gt;&gt;&gt; next(it)
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+    next(it)
+StopIteration  
+</code></pre><p>　　在看到迭代器协议背后的机制之后，很容易将迭代器行为添加到类中。定义一个__iter（）__方法，该方法用__next__（）方法返回一个对象。如果该类定义了__next__（），那么__iter（）__就可以返回self：  </p>
+<pre><code>class Reverse:
+    &quot;&quot;&quot;Iterator for looping over a sequence backwards.&quot;&quot;&quot;
+    def __init__(self, data):
+        self.data = data
+        self.index = len(data)
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.index == 0:
+            raise StopIteration
+        self.index = self.index - 1
+        return self.data[self.index]  
+</code></pre><p>__</p>
+<pre><code>&gt;&gt;&gt; rev = Reverse(&apos;spam&apos;)
+&gt;&gt;&gt; iter(rev)
+&lt;__main__.Reverse object at 0x00A1DB50&gt;
+&gt;&gt;&gt; for char in rev:
+...     print(char)
+...
+m
+a
+p
+s
+</code></pre><h2 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h2><p>　　生成器是创建迭代器简单而强大的工具。它们的编写方式类似于常规函数，但每当它们想返回数据时，就使用yield语句。每次调用next（）时，生成器会在它中断的地方恢复（它会存储所有的数据值和最后执行的语句）。下面的例子表明，生成器可以很容易地创建：  </p>
+<pre><code>def reverse(data):
+    for index in range(len(data)-1, -1, -1):
+        yield data[index]
+</code></pre><p>—  </p>
+<pre><code>&gt;&gt;&gt; for char in reverse(&apos;golf&apos;):
+...     print(char)
+...
+f
+l
+o
+g  
+</code></pre><p>　　任何可以用生成器完成的事情都可以使用基于类的迭代器来完成。使生成器如此简洁的原因是，__iter（）__和__next（）__方法是被自动创建的。<br>　　另一个关键特性是，本地变量和执行状态会在被调用之间自动保存。这使得这个函数更容易编写，而且比使用像self.index和self.data这样的实例变量更加清晰。<br>　　除了自动方法创建和保存程序状态之外，当生成器终止时，它们会自动抛出StopIteration的异常。总的来说，这些特性使得创建迭代器变得比编写一个常规的函数还要容易。  </p>
+<h2 id="生成器表达式"><a href="#生成器表达式" class="headerlink" title="生成器表达式"></a>生成器表达式</h2><p>　　一些简单的生成器可以用类似于列表推导的语法来简单地编码。这些表达式是为生成器闭包使用的情况而设计的。生成器表达式比完整的生成器定义更紧凑，但功能要少些，并且比同等的列表推导更好记。<br>　　比如：  </p>
+<pre><code>&gt;&gt;&gt; sum(i*i for i in range(10))                 # sum of squares
+285
+
+&gt;&gt;&gt; xvec = [10, 20, 30]
+&gt;&gt;&gt; yvec = [7, 5, 3]
+&gt;&gt;&gt; sum(x*y for x,y in zip(xvec, yvec))         # dot product
+260
+
+&gt;&gt;&gt; from math import pi, sin
+&gt;&gt;&gt; sine_table = {x: sin(x*pi/180) for x in range(0, 91)}
+
+&gt;&gt;&gt; unique_words = set(word  for line in page  for word in line.split())
+
+&gt;&gt;&gt; valedictorian = max((student.gpa, student.name) for student in graduates)
+
+&gt;&gt;&gt; data = &apos;golf&apos;
+&gt;&gt;&gt; list(data[i] for i in range(len(data)-1, -1, -1))
+[&apos;f&apos;, &apos;l&apos;, &apos;o&apos;, &apos;g&apos;]
+</code></pre>
       
       
         <div class="page-reward">
@@ -1589,7 +1714,7 @@ while True:
         <p><span>本文标题:</span><a href="/2018/01/21/python学习/">Python学习</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 hurricane 的个人博客">hurricane</a></p>
         <p><span>发布时间:</span>2018年01月21日 - 23时17分</p>
-        <p><span>最后更新:</span>2018年07月01日 - 23时14分</p>
+        <p><span>最后更新:</span>2018年07月06日 - 00时24分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/01/21/python学习/" title="Python学习">http://focusok.xyz/2018/01/21/python学习/</a>
             <span class="copy-path" data-clipboard-text="原文: http://focusok.xyz/2018/01/21/python学习/　　作者: hurricane" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -1618,7 +1743,7 @@ while True:
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python基础"><span class="toc-number">1.</span> <span class="toc-text">Python基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型"><span class="toc-number">1.1.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#整数、浮点数和复数"><span class="toc-number">1.1.1.</span> <span class="toc-text">整数、浮点数和复数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串"><span class="toc-number">1.1.2.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表"><span class="toc-number">1.1.3.</span> <span class="toc-text">列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通往Python编程的第一步"><span class="toc-number">1.2.</span> <span class="toc-text">通往Python编程的第一步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流控制语句"><span class="toc-number">1.3.</span> <span class="toc-text">流控制语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if条件语句"><span class="toc-number">1.3.1.</span> <span class="toc-text">if条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for循环语句"><span class="toc-number">1.3.2.</span> <span class="toc-text">for循环语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#range-函数"><span class="toc-number">1.3.3.</span> <span class="toc-text">range()函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#break和continue以及循环中的else语句"><span class="toc-number">1.3.4.</span> <span class="toc-text">break和continue以及循环中的else语句</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定义函数"><span class="toc-number">1.4.</span> <span class="toc-text">定义函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义默认参数值"><span class="toc-number">1.4.1.</span> <span class="toc-text">定义默认参数值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关键字参数调用"><span class="toc-number">1.4.2.</span> <span class="toc-text">关键字参数调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#任意参数列表"><span class="toc-number">1.4.3.</span> <span class="toc-text">任意参数列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lambda函数（匿名函数）"><span class="toc-number">1.4.4.</span> <span class="toc-text">Lambda函数（匿名函数）　　</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码风格"><span class="toc-number">1.5.</span> <span class="toc-text">代码风格</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#list用作堆栈"><span class="toc-number">1.5.1.</span> <span class="toc-text">list用作堆栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#list用作队列"><span class="toc-number">1.5.2.</span> <span class="toc-text">list用作队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表推导式"><span class="toc-number">1.5.3.</span> <span class="toc-text">列表推导式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#del表达式"><span class="toc-number">1.6.</span> <span class="toc-text">del表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tuples和序列"><span class="toc-number">1.7.</span> <span class="toc-text">Tuples和序列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#集合（sets）"><span class="toc-number">1.8.</span> <span class="toc-text">集合（sets）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字典（dict）"><span class="toc-number">1.9.</span> <span class="toc-text">字典（dict）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#循环技巧"><span class="toc-number">1.10.</span> <span class="toc-text">循环技巧</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#模块"><span class="toc-number">2.</span> <span class="toc-text">模块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#模块深入"><span class="toc-number">2.1.</span> <span class="toc-text">模块深入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#把模块当做脚本执行"><span class="toc-number">2.1.1.</span> <span class="toc-text">把模块当做脚本执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#模块的查找路径"><span class="toc-number">2.1.2.</span> <span class="toc-text">模块的查找路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#“编译”Python文件"><span class="toc-number">2.1.3.</span> <span class="toc-text">“编译”Python文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#标准库"><span class="toc-number">2.2.</span> <span class="toc-text">标准库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dir-函数"><span class="toc-number">2.3.</span> <span class="toc-text">dir()函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#包"><span class="toc-number">2.4.</span> <span class="toc-text">包</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#从包中import"><span class="toc-number">2.4.1.</span> <span class="toc-text">从包中import *</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#输入和输出"><span class="toc-number">3.</span> <span class="toc-text">输入和输出</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#设计输出格式"><span class="toc-number">3.1.</span> <span class="toc-text">设计输出格式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串格式化"><span class="toc-number">3.1.1.</span> <span class="toc-text">字符串格式化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#读写文件"><span class="toc-number">3.2.</span> <span class="toc-text">读写文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#文件对象的方法"><span class="toc-number">3.2.1.</span> <span class="toc-text">文件对象的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用json格式存储"><span class="toc-number">3.2.2.</span> <span class="toc-text">用json格式存储</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#错误和异常"><span class="toc-number">4.</span> <span class="toc-text">错误和异常</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#语法错误"><span class="toc-number">4.1.</span> <span class="toc-text">语法错误</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异常"><span class="toc-number">4.2.</span> <span class="toc-text">异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理异常"><span class="toc-number">4.3.</span> <span class="toc-text">处理异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#抛出异常"><span class="toc-number">4.4.</span> <span class="toc-text">抛出异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义异常"><span class="toc-number">4.5.</span> <span class="toc-text">自定义异常  　　</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定义异常清理动作"><span class="toc-number">4.6.</span> <span class="toc-text">定义异常清理动作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#预定义清理动作"><span class="toc-number">4.7.</span> <span class="toc-text">预定义清理动作</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#类"><span class="toc-number">5.</span> <span class="toc-text">类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#名称和对象"><span class="toc-number">5.1.</span> <span class="toc-text">名称和对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python作用域和命名空间"><span class="toc-number">5.2.</span> <span class="toc-text">Python作用域和命名空间</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#作用域及命名空间实例"><span class="toc-number">5.2.1.</span> <span class="toc-text">作用域及命名空间实例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#初探类"><span class="toc-number">5.3.</span> <span class="toc-text">初探类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#类的定义"><span class="toc-number">5.3.1.</span> <span class="toc-text">类的定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类对象"><span class="toc-number">5.3.2.</span> <span class="toc-text">类对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实例化对象"><span class="toc-number">5.3.3.</span> <span class="toc-text">实例化对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Method对象"><span class="toc-number">5.3.4.</span> <span class="toc-text">Method对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类和实例变量"><span class="toc-number">5.3.5.</span> <span class="toc-text">类和实例变量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#继承"><span class="toc-number">5.4.</span> <span class="toc-text">继承</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#多基类继承"><span class="toc-number">5.4.1.</span> <span class="toc-text">多基类继承</span></a></li></ol></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python基础"><span class="toc-number">1.</span> <span class="toc-text">Python基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型"><span class="toc-number">1.1.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#整数、浮点数和复数"><span class="toc-number">1.1.1.</span> <span class="toc-text">整数、浮点数和复数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串"><span class="toc-number">1.1.2.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表"><span class="toc-number">1.1.3.</span> <span class="toc-text">列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通往Python编程的第一步"><span class="toc-number">1.2.</span> <span class="toc-text">通往Python编程的第一步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流控制语句"><span class="toc-number">1.3.</span> <span class="toc-text">流控制语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if条件语句"><span class="toc-number">1.3.1.</span> <span class="toc-text">if条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for循环语句"><span class="toc-number">1.3.2.</span> <span class="toc-text">for循环语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#range-函数"><span class="toc-number">1.3.3.</span> <span class="toc-text">range()函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#break和continue以及循环中的else语句"><span class="toc-number">1.3.4.</span> <span class="toc-text">break和continue以及循环中的else语句</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定义函数"><span class="toc-number">1.4.</span> <span class="toc-text">定义函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义默认参数值"><span class="toc-number">1.4.1.</span> <span class="toc-text">定义默认参数值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关键字参数调用"><span class="toc-number">1.4.2.</span> <span class="toc-text">关键字参数调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#任意参数列表"><span class="toc-number">1.4.3.</span> <span class="toc-text">任意参数列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lambda函数（匿名函数）"><span class="toc-number">1.4.4.</span> <span class="toc-text">Lambda函数（匿名函数）　　</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码风格"><span class="toc-number">1.5.</span> <span class="toc-text">代码风格</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#list用作堆栈"><span class="toc-number">1.5.1.</span> <span class="toc-text">list用作堆栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#list用作队列"><span class="toc-number">1.5.2.</span> <span class="toc-text">list用作队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表推导式"><span class="toc-number">1.5.3.</span> <span class="toc-text">列表推导式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#del表达式"><span class="toc-number">1.6.</span> <span class="toc-text">del表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tuples和序列"><span class="toc-number">1.7.</span> <span class="toc-text">Tuples和序列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#集合（sets）"><span class="toc-number">1.8.</span> <span class="toc-text">集合（sets）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字典（dict）"><span class="toc-number">1.9.</span> <span class="toc-text">字典（dict）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#循环技巧"><span class="toc-number">1.10.</span> <span class="toc-text">循环技巧</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#模块"><span class="toc-number">2.</span> <span class="toc-text">模块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#模块深入"><span class="toc-number">2.1.</span> <span class="toc-text">模块深入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#把模块当做脚本执行"><span class="toc-number">2.1.1.</span> <span class="toc-text">把模块当做脚本执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#模块的查找路径"><span class="toc-number">2.1.2.</span> <span class="toc-text">模块的查找路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#“编译”Python文件"><span class="toc-number">2.1.3.</span> <span class="toc-text">“编译”Python文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#标准库"><span class="toc-number">2.2.</span> <span class="toc-text">标准库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dir-函数"><span class="toc-number">2.3.</span> <span class="toc-text">dir()函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#包"><span class="toc-number">2.4.</span> <span class="toc-text">包</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#从包中import"><span class="toc-number">2.4.1.</span> <span class="toc-text">从包中import *</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#输入和输出"><span class="toc-number">3.</span> <span class="toc-text">输入和输出</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#设计输出格式"><span class="toc-number">3.1.</span> <span class="toc-text">设计输出格式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#字符串格式化"><span class="toc-number">3.1.1.</span> <span class="toc-text">字符串格式化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#读写文件"><span class="toc-number">3.2.</span> <span class="toc-text">读写文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#文件对象的方法"><span class="toc-number">3.2.1.</span> <span class="toc-text">文件对象的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用json格式存储"><span class="toc-number">3.2.2.</span> <span class="toc-text">用json格式存储</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#错误和异常"><span class="toc-number">4.</span> <span class="toc-text">错误和异常</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#语法错误"><span class="toc-number">4.1.</span> <span class="toc-text">语法错误</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异常"><span class="toc-number">4.2.</span> <span class="toc-text">异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理异常"><span class="toc-number">4.3.</span> <span class="toc-text">处理异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#抛出异常"><span class="toc-number">4.4.</span> <span class="toc-text">抛出异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义异常"><span class="toc-number">4.5.</span> <span class="toc-text">自定义异常  　　</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定义异常清理动作"><span class="toc-number">4.6.</span> <span class="toc-text">定义异常清理动作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#预定义清理动作"><span class="toc-number">4.7.</span> <span class="toc-text">预定义清理动作</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#类"><span class="toc-number">5.</span> <span class="toc-text">类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#名称和对象"><span class="toc-number">5.1.</span> <span class="toc-text">名称和对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python作用域和命名空间"><span class="toc-number">5.2.</span> <span class="toc-text">Python作用域和命名空间</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#作用域及命名空间实例"><span class="toc-number">5.2.1.</span> <span class="toc-text">作用域及命名空间实例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#初探类"><span class="toc-number">5.3.</span> <span class="toc-text">初探类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#类的定义"><span class="toc-number">5.3.1.</span> <span class="toc-text">类的定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类对象"><span class="toc-number">5.3.2.</span> <span class="toc-text">类对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实例化对象"><span class="toc-number">5.3.3.</span> <span class="toc-text">实例化对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Method对象"><span class="toc-number">5.3.4.</span> <span class="toc-text">Method对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类和实例变量"><span class="toc-number">5.3.5.</span> <span class="toc-text">类和实例变量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#继承"><span class="toc-number">5.4.</span> <span class="toc-text">继承</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#多继承"><span class="toc-number">5.4.1.</span> <span class="toc-text">多继承</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#私有变量"><span class="toc-number">5.5.</span> <span class="toc-text">私有变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#零零碎碎"><span class="toc-number">5.6.</span> <span class="toc-text">零零碎碎</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#迭代器"><span class="toc-number">5.7.</span> <span class="toc-text">迭代器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生成器"><span class="toc-number">5.8.</span> <span class="toc-text">生成器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生成器表达式"><span class="toc-number">5.9.</span> <span class="toc-text">生成器表达式</span></a></li></ol></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
 
