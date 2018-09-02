@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://focusok.xyz/"/>
-  <updated>2018-09-02T12:42:58.603Z</updated>
+  <updated>2018-09-02T15:29:55.273Z</updated>
   <id>http://focusok.xyz/</id>
   
   <author>
@@ -17,16 +17,39 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Tcp和Udp协议</title>
-    <link href="http://focusok.xyz/2018/09/02/Tcp%E5%92%8CUdp%E5%8D%8F%E8%AE%AE/"/>
-    <id>http://focusok.xyz/2018/09/02/Tcp和Udp协议/</id>
-    <published>2018-09-02T12:03:48.000Z</published>
-    <updated>2018-09-02T12:42:58.603Z</updated>
+    <title>Qt库TCP协议接口</title>
+    <link href="http://focusok.xyz/2018/09/02/Qt%E5%BA%93TCP%E5%8D%8F%E8%AE%AE%E6%8E%A5%E5%8F%A3/"/>
+    <id>http://focusok.xyz/2018/09/02/Qt库TCP协议接口/</id>
+    <published>2018-09-02T15:29:55.000Z</published>
+    <updated>2018-09-02T15:29:55.273Z</updated>
     
     <summary type="html">
     
     </summary>
     
+    
+  </entry>
+  
+  <entry>
+    <title>Tcp协议</title>
+    <link href="http://focusok.xyz/2018/09/02/Tcp%E5%92%8CUdp%E5%8D%8F%E8%AE%AE/"/>
+    <id>http://focusok.xyz/2018/09/02/Tcp和Udp协议/</id>
+    <published>2018-09-02T12:03:48.000Z</published>
+    <updated>2018-09-02T15:25:00.482Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><h1 id="端口"><a href="#端口" class="headerlink" title="端口"></a>端口</h1><h1 id="TCP的连接"><a href="#TCP的连接" class="headerlink" title="TCP的连接"></a>TCP的连接</h1><h1 id="TCP的可靠传输"><a href="#TCP的可靠传输" class="headerlink" title="TCP的可靠传输"></a>TCP的可靠传输</h1><h2 id="停止等待协议"><a href="#停止等待协议" class="headerlink" title="停止等待协议"></a>停止等待协议</h2><h2 id="连续ARQ协议"><a href="#连续ARQ协议" class="headerlink" title="连续ARQ协议"></a>连续ARQ协议</h2><h2 id="超时重传"><a href="#超时重传" class="headerlink" title="超时重传"></a>超时重传</h2><h2 id="选择确认"><a href="#选择确认" class="headerlink" title="选择确认"></a>选择确认</h2><h2 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h2><h2 id="拥塞控制"><a href="#拥塞控制" class="headerlink" title="拥塞控制"></a>拥塞控制</h2><h1 id="TCP的连接释放"><a href="#TCP的连接释放" class="headerlink" title="TCP的连接释放"></a>TCP的连接释放</h1>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h1&gt;&lt;h1 id=&quot;端口&quot;&gt;&lt;a href=&quot;#端口&quot; class=&quot;headerlink&quot; title=&quot;端口&quot;&gt;&lt;/a&gt;端口&lt;/h1&gt;&lt;h1 id
+      
+    
+    </summary>
+    
+    
+      <category term="计算机网络" scheme="http://focusok.xyz/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
     
   </entry>
   
